@@ -1,0 +1,84 @@
+{
+  "title": "Pricing and Transportation Costs Decision Tree",
+  "description": "This decision tree guides employees through pricing and transportation costs for different order types.",
+  "steps": [
+    {
+      "id": "root",
+      "type": "start",
+      "description": "Start the decision process for determining pricing and transportation costs.",
+      "nextStep": "identify_client_type"
+    },
+    {
+      "id": "identify_client_type",
+      "type": "decision",
+      "question": "What is the type of the client?",
+      "options": [
+        {
+          "value": "Online Kunden Profishop, Schaffelhuber",
+          "nextStep": "online_kunden_profishop_schaffelhuber"
+        },
+        {
+          "value": "Händler-Bestellungen vom Außendienst",
+          "nextStep": "haendler_bestellungen_vom_aussendienst"
+        },
+        {
+          "value": "Österreich und die Schweiz",
+          "nextStep": "end_viktoria"
+        },
+        {
+          "value": "Sonderkunden mit Sonderpreisen",
+          "nextStep": "sonderkunden_mit_sonderpreisen"
+        }
+      ]
+    },
+    {
+      "id": "online_kunden_profishop_schaffelhuber",
+      "type": "action",
+      "description": "Use the first price list and consider 'Ek bei 1200 €' column. Freight costs: €10 for packages, €59 for pallets. Check weight in product card or previous orders.",
+      "nextStep": "end"
+    },
+    {
+      "id": "haendler_bestellungen_vom_aussendienst",
+      "type": "decision",
+      "question": "Are action items ordered?",
+      "options": [
+        {
+          "value": "Yes",
+          "nextStep": "action_items_ordered"
+        },
+        {
+          "value": "No",
+          "nextStep": "standard_pricing"
+        }
+      ]
+    },
+    {
+      "id": "action_items_ordered",
+      "type": "action",
+      "description": "Use prices from the action PDF. If order value is over €1200, apply 10% discount on standard items. Freight costs: Free for orders over €750, otherwise €20 for a package and €79 for a pallet. Check weight in product card or previous orders.",
+      "nextStep": "end"
+    },
+    {
+      "id": "standard_pricing",
+      "type": "action",
+      "description": "Use the second price list (customers DE 230304) and the 'EK Preis' column. For mixed orders with action items, note: No 10% discount on standard items for orders reaching €1200.",
+      "nextStep": "end"
+    },
+    {
+      "id": "sonderkunden_mit_sonderpreisen",
+      "type": "action",
+      "description": "Verify unknown customers or provide order numbers for review before processing.",
+      "nextStep": "end_viktoria"
+    },
+    {
+      "id": "end_viktoria",
+      "type": "end",
+      "description": "This order is handled by Viktoria."
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "description": "This is the end of the decision tree process."
+    }
+  ]
+}

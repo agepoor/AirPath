@@ -1,0 +1,81 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* CSS Variables */
+:root {
+    /* Fonts */
+    --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    /* Light Theme Colors */
+    --light-background: #ffffff;
+    --light-text: #333333;
+    --light-border: #cccccc;
+
+    /* Dark Theme Colors */
+    --dark-background: #121212;
+    --dark-text: #ffffff;
+    --dark-border: #333333;
+
+    /* Sepia Theme Colors */
+    --sepia-background: #f4ecd8;
+    --sepia-text: #5b4636;
+    --sepia-border: #a4978e;
+
+    /* Shadow and Border */
+    --shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    --border-radius: 4px;
+}
+
+body {
+    font-family: var(--font);
+}
+
+/* Light Theme Class */
+.light-theme {
+    background-color: var(--light-background);
+    color: var(--light-text);
+    border-color: var(--light-border);
+}
+
+/* Dark Theme Class */
+.dark-theme {
+    background-color: var(--dark-background);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
+/* Sepia Theme Class */
+.sepia-theme {
+    background-color: var(--sepia-background);
+    color: var(--sepia-text);
+    border-color: var(--sepia-border);
+}
+
+/* Common Styles for UI Elements */
+.button,
+.card,
+.modal {
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+/* Example of a Custom Class Using Variables */
+.custom-class {
+    background-color: var(--light-background);
+    color: var(--dark-text);
+    border: 1px solid var(--light-border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+/* Later .light-theme select */
+select {
+    border: 0.05rem solid var(--light-border);
+    background-color: var(--light-background);
+    color: var(--light-text);
+    border-radius: var(--border-radius);
+}

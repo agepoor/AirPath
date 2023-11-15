@@ -1,0 +1,150 @@
+{
+  "title": "Garantieprocedure",
+  "description": "Deze beslisboom helpt medewerkers door de garantieprocedure van een product.",
+  "departments": {
+    "customer_service": "Klantenservice",
+    "technical_support": "Technische Ondersteuning",
+    "shipping_department": "Verzendafdeling",
+    "accounting": "Boekhouding"
+  },
+  "variables": {
+    "workOrderNumber": null,
+    "isRepairable": null,
+    "warrantyPeriod": null,
+    "reckoningPrice": null,
+    "customerChoice": null
+  },
+  "steps": [
+    {
+      "id": "root",
+      "type": "start",
+      "question": "Start de garantieprocedure voor het product:",
+      "options": [
+        {
+          "value": "Start",
+          "nextStep": "warranty_period"
+        }
+      ],
+      "department": "customer_service"
+    },
+    {
+      "id": "warranty_period",
+      "type": "decision",
+      "question": "Is de garantieperiode nog geldig?",
+      "options": [
+        {
+          "value": "Ja",
+          "nextStep": "repairable_check"
+        },
+        {
+          "value": "Nee",
+          "nextStep": "out_of_warranty"
+        }
+      ],
+      "department": "customer_service"
+    },
+    {
+      "id": "repairable_check",
+      "type": "decision",
+      "question": "Is het product makkelijk zelf te repareren?",
+      "options": [
+        {
+          "value": "Ja",
+          "nextStep": "suggest_self_repair"
+        },
+        {
+          "value": "Nee",
+          "nextStep": "enter_work_order_number"
+        }
+      ],
+      "department": "technical_support"
+    },
+    {
+      "id": "suggest_self_repair",
+      "type": "action",
+      "description": "Stel voor dat de klant het product zelf repareert met online handleidingen.",
+      "nextStep": "end",
+      "department": "technical_support"
+    },
+    {
+      "id": "enter_work_order_number",
+      "type": "input",
+      "question": "Voer het werkorder nummer in:",
+      "variable": "workOrderNumber",
+      "nextStep": "reckoning_price_check",
+      "department": "customer_service"
+    },
+    {
+      "id": "reckoning_price_check",
+      "type": "decision",
+      "question": "Is de verrekenprijs lager dan €100,-?",
+      "options": [
+        {
+          "value": "Ja",
+          "nextStep": "authorize_replacement"
+        },
+        {
+          "value": "Nee",
+          "nextStep": "customer_decision"
+        }
+      ],
+      "department": "accounting"
+    },
+    {
+      "id": "authorize_replacement",
+      "type": "action",
+      "description": "Autoriseer een vervanging van het product zonder retour.",
+      "nextStep": "arrange_shipping",
+      "department": "accounting"
+    },
+    {
+      "id": "customer_decision",
+      "type": "decision",
+      "question": "Wil de klant het product laten repareren of vervangen?",
+      "options": [
+        {
+          "value": "Repareren",
+          "nextStep": "process_repair"
+        },
+        {
+          "value": "Vervangen",
+          "nextStep": "process_replacement"
+        }
+      ],
+      "department": "customer_service"
+    },
+    {
+      "id": "process_repair",
+      "type": "action",
+      "description": "Regel de reparatieprocedure voor het product.",
+      "nextStep": "end",
+      "department": "technical_support"
+    },
+    {
+      "id": "process_replacement",
+      "type": "action",
+      "description": "Regel een vervanging voor het product.",
+      "nextStep": "arrange_shipping",
+      "department": "shipping_department"
+    },
+    {
+      "id": "arrange_shipping",
+      "type": "action",
+      "description": "Regel de verzending voor het vervangen of gerepareerde product.",
+      "nextStep": "end",
+      "department": "shipping_department"
+    },
+    {
+      "id": "out_of_warranty",
+      "type": "action",
+      "description": "Informeer de klant dat het product buiten de garantie valt en bied alternatieve oplossingen aan.",
+      "nextStep": "end",
+      "department": "customer_service"
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "description": "Dit is het einde van de garantieprocedure."
+    }
+  ]
+}
