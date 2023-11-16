@@ -1,5 +1,5 @@
 <script>
-	import { decisionTreeState } from '$lib/stores';
+	import { decisionTreeState, addBreadcrumb } from '$lib/stores';
 
 	let state;
 	let currentStep;
@@ -10,35 +10,42 @@
 			currentStep = state.selectedTree.steps.find((step) => step.id === state.currentStepId);
 		}
 	});
+
+	function handleDecision(option) {
+		// Call this function when a decision is made
+		addBreadcrumb(state.currentStepId, option);
+		// ... rest of the decision handling logic ...
+		console.log(state);
+	}
 </script>
 
 <main>
 	{#if currentStep}
 		<div class="breadcrumbs">
-			<span> Broodkruim 1 </span><span> Broodkruim 2 </span>
-			<!-- Dummy Content -->
-			{#each state.breadcrumbs as breadcrumb}
-				<span>{breadcrumb} Broodkruim 1 > Broodkruim 2 </span>
-			{/each}
+			<!-- Breadcrumbs -->
 		</div>
 		<div class="current-step">
 			{#if currentStep.type === 'start'}
-				<p>{currentStep.description || 'Start of the process'}</p>
+				<p>{@html currentStep.description || 'Start of the process'}</p>
 				<!-- Layout for start step -->
+				<!-- Add specific UI for start here -->
 			{:else if currentStep.type === 'decision'}
-				<p>{currentStep.question || 'No question provided'}</p>
+				<p>{@html currentStep.question || 'No question provided'}</p>
 				<!-- Layout for decision step -->
-				<!-- Add UI elements for options here -->
+				<!-- Add specific UI elements for decisions here -->
 			{:else if currentStep.type === 'action'}
-				<p>{currentStep.description || 'No description provided'}</p>
+				<p>{@html currentStep.description || 'No description provided'}</p>
 				<!-- Layout for action step -->
+				<!-- Add specific UI elements for actions here -->
 			{:else if currentStep.type === 'input'}
-				<p>{currentStep.question || 'No input question provided'}</p>
+				<p>{@html currentStep.question || 'No input question provided'}</p>
 				<!-- Layout for input step -->
-				<!-- Add UI for input here -->
+				<!-- Add specific UI for input here -->
 			{:else if currentStep.type === 'end'}
-				<p>{currentStep.description || 'End of the process'}</p>
+				<!-- This is the only type where there is no decision made -->
+				<p>{@html currentStep.description || 'End of the process'}</p>
 				<!-- Layout for end step -->
+				<!-- Add specific UI for end here -->
 			{:else}
 				<p>Unrecognized step type</p>
 			{/if}

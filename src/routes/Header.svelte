@@ -5,7 +5,7 @@
 	import { faBackwardStep } from '@fortawesome/free-solid-svg-icons';
 	import { faBackwardFast } from '@fortawesome/free-solid-svg-icons';
 
-	import { decisionTreeState } from '$lib/stores';
+	import { decisionTreeState, removeLastBreadcrumb, resetBreadcrumbs } from '$lib/stores';
 
 	export let decisionTree;
 	let selectedOption = '';
@@ -25,6 +25,18 @@
 		}
 
 		console.log('Selected Tree:', selectedTree);
+	}
+
+	function handleStepBack() {
+		// Call this function when the stepback button is clicked
+		removeLastBreadcrumb();
+		// ... rest of the step back logic ...
+	}
+
+	function handleNewTree() {
+		// Call this function when a tree is reset with the BackwardFast button
+		resetBreadcrumbs();
+		// ... rest of the new tree logic ...
 	}
 </script>
 
