@@ -19,12 +19,7 @@
       "id": "root",
       "type": "start",
       "question": "Start de garantieprocedure voor het product:",
-      "options": [
-        {
-          "value": "Start",
-          "nextStep": "warranty_period"
-        }
-      ],
+      "nextStep": "warranty_period",
       "department": "customer_service"
     },
     {

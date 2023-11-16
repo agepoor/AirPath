@@ -3,6 +3,7 @@
 
 	let state;
 	let currentStep;
+	let userInput;
 
 	decisionTreeState.subscribe((value) => {
 		state = value;
@@ -12,9 +13,37 @@
 	});
 
 	function handleDecision(option) {
-		// Call this function when a decision is made
+		// Add breadcrumb for tracking
 		addBreadcrumb(state.currentStepId, option);
-		// ... rest of the decision handling logic ...
+
+		let nextStepId;
+
+		switch (currentStep.type) {
+			case 'start':
+			case 'action':
+				// For start and action steps, move to the next step directly
+				nextStepId = currentStep.nextStep;
+				break;
+
+			case 'decision':
+				// For decision and input steps, find the next step based on the user's choice
+				nextStepId = currentStep.options.find((o) => o.value === option)?.nextStep;
+				break;
+
+			case 'input':
+				nextStepId = currentStep.nextStep;
+
+			default:
+				console.error('Unrecognized step type');
+				break;
+		}
+
+		// Update the state with the next step
+		if (nextStepId) {
+			decisionTreeState.update((state) => ({ ...state, currentStepId: nextStepId }));
+		} else {
+			console.error('Next step not found');
+		}
 		console.log(state);
 	}
 </script>
@@ -26,21 +55,28 @@
 		</div>
 		<div class="current-step">
 			{#if currentStep.type === 'start'}
-				<p>{@html currentStep.description || 'Start of the process'}</p>
-				<!-- Layout for start step -->
-				<!-- Add specific UI for start here -->
+				<div class="start-step">
+					<p>{@html currentStep.description || 'Start of the process'}</p>
+					<button on:click={() => handleDecision(null)}>Start</button>
+				</div>
 			{:else if currentStep.type === 'decision'}
-				<p>{@html currentStep.question || 'No question provided'}</p>
-				<!-- Layout for decision step -->
-				<!-- Add specific UI elements for decisions here -->
+				<div class="decision-step">
+					<p>{@html currentStep.question || 'No question provided'}</p>
+					{#each currentStep.options as option}
+						<button on:click={() => handleDecision(option.value)}>{option.value}</button>
+					{/each}
+				</div>
 			{:else if currentStep.type === 'action'}
-				<p>{@html currentStep.description || 'No description provided'}</p>
-				<!-- Layout for action step -->
-				<!-- Add specific UI elements for actions here -->
+				<div class="action-step">
+					<p>{@html currentStep.description || 'No description provided'}</p>
+					<button on:click={() => handleDecision(null)}>Continue</button>
+				</div>
 			{:else if currentStep.type === 'input'}
-				<p>{@html currentStep.question || 'No input question provided'}</p>
-				<!-- Layout for input step -->
-				<!-- Add specific UI for input here -->
+				<div class="input-step">
+					<p>{@html currentStep.question || 'No input question provided'}</p>
+					<input type="text" bind:value={userInput} />
+					<button on:click={() => handleDecision(userInput)}>Submit</button>
+				</div>
 			{:else if currentStep.type === 'end'}
 				<!-- This is the only type where there is no decision made -->
 				<p>{@html currentStep.description || 'End of the process'}</p>
