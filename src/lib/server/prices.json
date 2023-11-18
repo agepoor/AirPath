@@ -11,7 +11,7 @@
     {
       "id": "identify_client_type",
       "type": "decision",
-      "question": "What is the type of the client?",
+      "description": "What is the type of the client?",
       "options": [
         {
           "value": "Online Kunden Profishop, Schaffelhuber",
@@ -40,7 +40,7 @@
     {
       "id": "haendler_bestellungen_vom_aussendienst",
       "type": "decision",
-      "question": "Are action items ordered?",
+      "description": "Are action items ordered?",
       "options": [
         {
           "value": "Yes",

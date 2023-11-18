@@ -1,29 +1,111 @@
-// src/lib/stores.js
-import { writable } from 'svelte/store';
+// @ts-nocheck
+// In src/lib/stores.js
+import { writable, get } from 'svelte/store';
 
 const decisionTreeState = writable({
-	selectedTree: null,
-	currentStepId: null,
-	/* Breadcrumbs should be a list of decisions with given answers in decision tree. It adds an item when a choice is made, and it removes an item when the stepback button is clicked. It is in the state for two purposes: 1. To visualize the decision history in the dumb with breadcrumb elements. 2. To allow the users to go back. The breadcrumbs should be reset when the users opens a new decision tree or when the users presses the backward fast button */
-	breadcrumbs: []
+	decisionTree: null,
+	currentStep: null,
+	stepHistory: []
 });
 
-function addBreadcrumb(stepId, option) {
+/* function to update state with title and set current step to root id and empty step history */
+function updateDecisionTree(decisionTree) {
 	decisionTreeState.update((state) => {
-		return { ...state, breadcrumbs: [...state.breadcrumbs, { stepId, option }] };
+		state.decisionTree = decisionTree;
+		state.currentStep = 'root';
+		state.stepHistory = [];
+		return state;
 	});
+	console.log(get(decisionTreeState));
 }
 
-function removeLastBreadcrumb() {
-	decisionTreeState.update((state) => {
-		return { ...state, breadcrumbs: state.breadcrumbs.slice(0, -1) };
-	});
-}
+export { decisionTreeState, updateDecisionTree };
 
-function resetBreadcrumbs() {
-	decisionTreeState.update((state) => {
-		return { ...state, breadcrumbs: [] };
-	});
+/* Example Json */
+/*
+{
+  "title": "Garantieprocedure",
+  "description": "Deze beslissingsboom helpt je om te bepalen of een product onder garantie valt.",
+  "departments": {
+    "customer_service": "Customer Service",
+    "warehouse": "Warehouse",
+    "workshop": "Workshop"
+  },
+  "variables": {
+    "workOrderNumber": null,
+    "repairable": null,
+    "warrantyPeriod": null,
+    "reckoningPrice": null
+  },
+  "steps": [
+    {
+      "id": "root",
+      "type": "start",
+      "question": "Is het product nog binnen de garantieperiode?",
+      "options": [
+        {
+          "value": "Ja",
+          "nextStep": "warrantyPeriod"
+        },
+        {
+          "value": "Nee",
+          "nextStep": "end"
+        }
+      ]
+    },
+    {
+      "id": "warrantyPeriod",
+      "type": "decision",
+      "question": "Is het product nog binnen de garantieperiode?",
+      "options": [
+        {
+          "value": "Ja",
+          "nextStep": "warrantyPeriod"
+        },
+        {
+          "value": "Nee",
+          "nextStep": "end"
+        }
+      ]
+    },
+    {
+      "id": "workOrderNumber",
+      "type": "input",
+      "question": "Wat is het werkordernummer?",
+      "variable": "workOrderNumber",
+      "explanation": "Het werkordernummer is te vinden op de werkorder.",
+      "department": "workshop",
+      "nextStep": "repairable"
+    },
+    {
+      "id": "repairable",
+      "type": "decision",
+      "question": "Is het product nog binnen de garantieperiode?",
+      "options": [
+        {
+          "value": "Ja",
+          "nextStep": "warrantyPeriod"
+        },
+        {
+          "value": "Nee",
+          "nextStep": "end"
+        }
+      ]
+    },
+    {
+      "id": "reckoningPrice",
+      "type": "input",
+      "question": "Wat is de afrekenprijs?",
+      "variable": "reckoningPrice",
+      "explanation": "De afrekenprijs is te vinden op de werkorder.",
+        "department": "workshop",
+        "nextStep": "end"
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "question": "Het product valt niet onder garantie."
+    }
+    ]
 }
-
-export { decisionTreeState, addBreadcrumb, removeLastBreadcrumb, resetBreadcrumbs };
+*/

@@ -5,44 +5,13 @@
 	import { faBackwardStep } from '@fortawesome/free-solid-svg-icons';
 	import { faBackwardFast } from '@fortawesome/free-solid-svg-icons';
 
-	import { decisionTreeState, removeLastBreadcrumb, resetBreadcrumbs } from '$lib/stores';
-
-	export let decisionTree;
-	let selectedOption = '';
-
-	function handleTreeSelection() {
-		console.log('Selected Option:', selectedOption);
-
-		const selectedTree = decisionTree.find((tree) => tree.title === selectedOption);
-		if (selectedTree) {
-			decisionTreeState.set({
-				selectedTree,
-				currentStepId: selectedTree.steps[0].id,
-				breadcrumbs: []
-			});
-		} else {
-			console.error('Selected tree not found');
-		}
-
-		console.log('Selected Tree:', selectedTree);
-	}
-
-	function handleStepBack() {
-		// Call this function when the stepback button is clicked
-		removeLastBreadcrumb();
-		// ... rest of the step back logic ...
-	}
-
-	function handleNewTree() {
-		// Call this function when a tree is reset with the BackwardFast button
-		resetBreadcrumbs();
-		// ... rest of the new tree logic ...
-	}
+	export let trees;
+	export let newDecisionTree;
 </script>
 
 <header>
-	<select bind:value={selectedOption} on:change={handleTreeSelection}>
-		{#each decisionTree as tree}
+	<select on:change={newDecisionTree}>
+		{#each trees as tree}
 			<option value={tree.title}>{tree.title}</option>
 		{/each}
 	</select>

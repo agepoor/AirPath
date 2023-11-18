@@ -18,14 +18,14 @@
     {
       "id": "root",
       "type": "start",
-      "question": "Start de garantieprocedure voor het product:",
+      "description": "Start de garantieprocedure voor het product:",
       "nextStep": "warranty_period",
       "department": "customer_service"
     },
     {
       "id": "warranty_period",
       "type": "decision",
-      "question": "Is de garantieperiode nog geldig?",
+      "description": "Is de garantieperiode nog geldig?",
       "options": [
         {
           "value": "Ja",
@@ -41,7 +41,7 @@
     {
       "id": "repairable_check",
       "type": "decision",
-      "question": "Is het product makkelijk zelf te repareren?",
+      "description": "Is het product makkelijk zelf te repareren?",
       "options": [
         {
           "value": "Ja",
@@ -64,7 +64,7 @@
     {
       "id": "enter_work_order_number",
       "type": "input",
-      "question": "Voer het werkorder nummer in:",
+      "description": "Voer het werkorder nummer in:",
       "variable": "workOrderNumber",
       "nextStep": "reckoning_price_check",
       "department": "customer_service"
@@ -72,7 +72,7 @@
     {
       "id": "reckoning_price_check",
       "type": "decision",
-      "question": "Is de verrekenprijs lager dan €100,-?",
+      "description": "Is de verrekenprijs lager dan €100,-?",
       "options": [
         {
           "value": "Ja",
@@ -95,7 +95,7 @@
     {
       "id": "customer_decision",
       "type": "decision",
-      "question": "Wil de klant het product laten repareren of vervangen?",
+      "description": "Wil de klant het product laten repareren of vervangen?",
       "options": [
         {
           "value": "Repareren",
