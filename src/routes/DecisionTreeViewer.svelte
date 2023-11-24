@@ -1,4 +1,5 @@
 <script>
+	// export let breadcrumbs;
 	/* Dummy breadcrumb data */
 	const breadcrumbs = [
 		{
@@ -26,8 +27,9 @@
 		}
 	];
 
+	// export let currentNode;
 	/* Dummy data decision */
-	const currentStep = {
+	const currentNode = {
 		id: 'warranty_period',
 		type: 'decision',
 		description: 'Is de garantieperiode nog geldig?',
@@ -43,11 +45,11 @@
 		],
 		department: 'customer_service',
 		explanation:
-			'De garantieperiode is nog <u>geldig</u>, dus de klant kan het product gratis laten repareren.'
+			'<p>De garantieperiode is nog <u>geldig</u>, dus de klant kan het product gratis laten repareren.</p><p>Informeer de klant over de garantieperiode en de reparatieprocedure. Als de klant het product wil laten repareren, maak dan een werkorder aan.</p>'
 	};
 
 	/* Dummy data action */
-	// const currentStep = {
+	// const currentNode = {
 	// 	id: 'repairable_check',
 	// 	type: 'action',
 	// 	description: 'Is het product te repareren?',
@@ -56,7 +58,7 @@
 	// };
 
 	/* Dummy data input */
-	// const currentStep = {
+	// const currentNode = {
 	// 	id: 'enter_work_order_number',
 	// 	type: 'input',
 	// 	description: 'Voer het werkorder nummer in:',
@@ -67,7 +69,7 @@
 	// };
 
 	/* Dummy data end */
-	// const currentStep = {
+	// const currentNode = {
 	// 	id: 'out_of_warranty',
 	// 	type: 'end',
 	// 	description: 'Het product is buiten de garantieperiode.',
@@ -98,37 +100,37 @@
 	</div>
 	<div class="current-step">
 		<!-- TODO: Step layout (this depends on the type) and functionality -->
-		{#if currentStep.type === 'decision'}
-			<h2>{currentStep.description}</h2>
+		{#if currentNode.type === 'decision'}
+			<h2>{currentNode.description}</h2>
 			<div class="explanation">
-				{@html currentStep.explanation}
+				{@html currentNode.explanation}
 			</div>
 			<div class="options">
-				{#each currentStep.options as option}
+				{#each currentNode.options as option}
 					<button on:click={() => console.log(option.nextStep)}>{option.value}</button>
 				{/each}
 			</div>
-		{:else if currentStep.type === 'action'}
-			<h2>{currentStep.description}</h2>
+		{:else if currentNode.type === 'action'}
+			<h2>{currentNode.description}</h2>
 			<div class="explanation">
-				{@html currentStep.explanation}
+				{@html currentNode.explanation}
 			</div>
 			<div class="options">
 				<button on:click={() => console.log('Action performed')}>Uitvoeren</button>
 			</div>
-		{:else if currentStep.type === 'input'}
-			<h2>{currentStep.description}</h2>
+		{:else if currentNode.type === 'input'}
+			<h2>{currentNode.description}</h2>
 			<div class="explanation">
-				{@html currentStep.explanation}
+				{@html currentNode.explanation}
 			</div>
 			<div class="options">
-				<input type="text" name={currentStep.variable} />
+				<input type="text" name={currentNode.variable} />
 				<button on:click={() => console.log('Input received')}>Verder</button>
 			</div>
-		{:else if currentStep.type === 'end'}
-			<h2>{currentStep.description}</h2>
+		{:else if currentNode.type === 'end'}
+			<h2>{currentNode.description}</h2>
 			<div class="explanation">
-				{@html currentStep.explanation}
+				{@html currentNode.explanation}
 			</div>
 			<hr />
 		{/if}
@@ -153,7 +155,7 @@
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 		border-radius: 5px;
 		margin-bottom: 1rem;
-		width: 600px; /* Match the width of the current-step element */
+		width: 700px; /* Match the width of the current-step element */
 	}
 
 	.breadcrumb-wrapper {
@@ -211,7 +213,7 @@
 		display: flex;
 		flex-direction: column;
 		padding: 2rem;
-		width: 600px;
+		width: 700px;
 		box-shadow: var(--shadow);
 		/* Add styles for current step */
 	}
@@ -228,6 +230,10 @@
 		border-left: 4px solid #2193b0; /* Left border for emphasis */
 		box-shadow: var(--shadow); /* Soft shadow */
 		border-radius: 4px; /* Rounded corners */
+	}
+
+	:global(.current-step .explanation p) {
+		margin: 0.5rem 0;
 	}
 
 	.current-step .options {
