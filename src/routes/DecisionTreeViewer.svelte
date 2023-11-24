@@ -1,140 +1,180 @@
 <script>
-	// export let breadcrumbs;
-	/* Dummy breadcrumb data */
-	const breadcrumbs = [
-		{
-			description: 'Start',
-			type: 'start'
-		},
-		{
-			description: 'Is de garantieperiode nog geldig?',
-			type: 'decision',
-			answer: 'Ja'
-		},
-		{
-			description: 'Is het product te repareren?',
-			type: 'action',
-			answer: 'Ja'
-		},
-		{
-			description: 'Voer het werkorder nummer in:',
-			type: 'input',
-			answer: 'W123456'
-		},
-		{
-			description: 'Het product is buiten de garantieperiode.',
-			type: 'end'
-		}
-	];
+	/* example decision treee */
+	// 	{
+	//   "title": "Pricing and Transportation Costs Decision Tree",
+	//   "description": "This decision tree guides employees through pricing and transportation costs for different order types.",
+	//   "steps": [
+	//     {
+	//       "id": "root",
+	//       "type": "start",
+	//       "description": "Start the decision process for determining pricing and transportation costs.",
+	//       "nextStep": "identify_client_type"
+	//     },
+	//     {
+	//       "id": "identify_client_type",
+	//       "type": "decision",
+	//       "description": "What is the type of the client?",
+	//       "options": [
+	//         {
+	//           "value": "Online Kunden Profishop, Schaffelhuber",
+	//           "nextStep": "online_kunden_profishop_schaffelhuber"
+	//         },
+	//         {
+	//           "value": "Händler-Bestellungen vom Außendienst",
+	//           "nextStep": "haendler_bestellungen_vom_aussendienst"
+	//         },
+	//         {
+	//           "value": "Österreich und die Schweiz",
+	//           "nextStep": "end_viktoria"
+	//         },
+	//         {
+	//           "value": "Sonderkunden mit Sonderpreisen",
+	//           "nextStep": "sonderkunden_mit_sonderpreisen"
+	//         }
+	//       ]
+	//     },
+	//     {
+	//       "id": "online_kunden_profishop_schaffelhuber",
+	//       "type": "action",
+	//       "description": "Use the first price list and consider 'Ek bei 1200 €' column. Freight costs: €10 for packages, €59 for pallets. Check weight in product card or previous orders.",
+	//       "nextStep": "end"
+	//     },
+	//     {
+	//       "id": "haendler_bestellungen_vom_aussendienst",
+	//       "type": "decision",
+	//       "description": "Are action items ordered?",
+	//       "options": [
+	//         {
+	//           "value": "Yes",
+	//           "nextStep": "action_items_ordered"
+	//         },
+	//         {
+	//           "value": "No",
+	//           "nextStep": "standard_pricing"
+	//         }
+	//       ]
+	//     },
+	//     {
+	//       "id": "action_items_ordered",
+	//       "type": "action",
+	//       "description": "Use prices from the action PDF. If order value is over €1200, apply 10% discount on standard items. Freight costs: Free for orders over €750, otherwise €20 for a package and €79 for a pallet. Check weight in product card or previous orders.",
+	//       "nextStep": "end"
+	//     },
+	//     {
+	//       "id": "standard_pricing",
+	//       "type": "action",
+	//       "description": "Use the second price list (customers DE 230304) and the 'EK Preis' column. For mixed orders with action items, note: No 10% discount on standard items for orders reaching €1200.",
+	//       "nextStep": "end"
+	//     },
+	//     {
+	//       "id": "sonderkunden_mit_sonderpreisen",
+	//       "type": "action",
+	//       "description": "Verify unknown customers or provide order numbers for review before processing.",
+	//       "nextStep": "end_viktoria"
+	//     },
+	//     {
+	//       "id": "end_viktoria",
+	//       "type": "end",
+	//       "description": "This order is handled by Viktoria."
+	//     },
+	//     {
+	//       "id": "end",
+	//       "type": "end",
+	//       "description": "This is the end of the decision tree process."
+	//     }
+	//   ]
+	// }
 
-	// export let currentNode;
-	/* Dummy data decision */
-	const currentNode = {
-		id: 'warranty_period',
-		type: 'decision',
-		description: 'Is de garantieperiode nog geldig?',
-		options: [
-			{
-				value: 'Ja',
-				nextStep: 'repairable_check'
-			},
-			{
-				value: 'Nee',
-				nextStep: 'out_of_warranty'
+	import { get } from 'svelte/store';
+	import { currentDecisionTree, currentStep, stepHistory } from '$lib/stores';
+	let tree;
+	currentDecisionTree.subscribe((value) => (tree = value));
+	let currentNode;
+	currentStep.subscribe((value) => (currentNode = value));
+	let breadcrumbs;
+	stepHistory.subscribe((value) => (breadcrumbs = value));
+	let inputVariable;
+
+	// The decision handler function
+	let decisionHandler = (event) => {
+		let buttonValue = event.target.value;
+		let input = inputVariable;
+		let answer = event.target.innerText;
+
+		// Update stephistory with current node and answer
+		// stepHistory.update((value) => [...value, { node: currentNode, answer: answer }]);
+		stepHistory.update((value) => {
+			let newHistory;
+			if (currentNode.type === 'input') {
+				newHistory = [...value, { node: currentNode, answer: input }];
+			} else {
+				newHistory = [...value, { node: currentNode, answer: answer }];
 			}
-		],
-		department: 'customer_service',
-		explanation:
-			'<p>De garantieperiode is nog <u>geldig</u>, dus de klant kan het product gratis laten repareren.</p><p>Informeer de klant over de garantieperiode en de reparatieprocedure. Als de klant het product wil laten repareren, maak dan een werkorder aan.</p>'
+			return newHistory;
+		});
+
+		// Switch statement to determine next step
+		switch (currentNode.type) {
+			case 'start':
+				currentStep.set(tree.steps.find((step) => step.id === currentNode.nextStep));
+				break;
+			case 'decision':
+				currentStep.set(tree.steps.find((step) => step.id === buttonValue));
+				break;
+			case 'input':
+				currentStep.set(tree.steps.find((step) => step.id === currentNode.nextStep));
+				break;
+			case 'action':
+				currentStep.set(tree.steps.find((step) => step.id === currentNode.nextStep));
+				break;
+			case 'end':
+				currentStep.set(tree.steps.find((step) => step.id === currentNode.nextStep));
+				break;
+			default:
+				break;
+		}
+
+		console.log(get(stepHistory));
 	};
-
-	/* Dummy data action */
-	// const currentNode = {
-	// 	id: 'repairable_check',
-	// 	type: 'action',
-	// 	description: 'Is het product te repareren?',
-	// 	department: 'customer_service',
-	// 	explanation: 'Het product is te repareren, dus de klant kan het product gratis laten repareren.'
-	// };
-
-	/* Dummy data input */
-	// const currentNode = {
-	// 	id: 'enter_work_order_number',
-	// 	type: 'input',
-	// 	description: 'Voer het werkorder nummer in:',
-	// 	variable: 'workOrderNumber',
-	// 	nextStep: 'reckoning_price_check',
-	// 	department: 'customer_service',
-	// 	explanation: 'Het werkordernummer kun je vinden via ...'
-	// };
-
-	/* Dummy data end */
-	// const currentNode = {
-	// 	id: 'out_of_warranty',
-	// 	type: 'end',
-	// 	description: 'Het product is buiten de garantieperiode.',
-	// 	department: 'customer_service',
-	// 	explanation:
-	// 		'Het product is buiten de garantieperiode, dus de klant kan het product niet gratis laten repareren.'
-	// };
 </script>
 
 <main>
 	<div class="breadcrumbs">
-		<!-- TODO: Layout and functionality for Breadcrumbs -->
-		{#each breadcrumbs as breadcrumb}
-			<div class="breadcrumb-wrapper">
-				{#if breadcrumb.type === 'start'}
-					<span class="start">{breadcrumb.description}</span>
-				{:else if breadcrumb.type === 'decision' || breadcrumb.type === 'action'}
-					<span>{breadcrumb.description}</span>
-					<span class="answer">{breadcrumb.answer}</span>
-				{:else if breadcrumb.type === 'input'}
-					<span>{breadcrumb.description}</span>
-					<span class="variable">{breadcrumb.answer}</span>
-				{:else if breadcrumb.type === 'end'}
-					<span class="end">{breadcrumb.description}</span>
-				{/if}
-			</div>
-		{/each}
+		<!-- TODO: Implement breadcrumbs logic-->
 	</div>
-	<div class="current-step">
-		<!-- TODO: Step layout (this depends on the type) and functionality -->
-		{#if currentNode.type === 'decision'}
+	{#if !currentNode}
+		<h2 class="make-selection">Selecteer een beslisboom</h2>
+	{:else}
+		<div class="current-step">
 			<h2>{currentNode.description}</h2>
-			<div class="explanation">
-				{@html currentNode.explanation}
-			</div>
-			<div class="options">
-				{#each currentNode.options as option}
-					<button on:click={() => console.log(option.nextStep)}>{option.value}</button>
-				{/each}
-			</div>
-		{:else if currentNode.type === 'action'}
-			<h2>{currentNode.description}</h2>
-			<div class="explanation">
-				{@html currentNode.explanation}
-			</div>
-			<div class="options">
-				<button on:click={() => console.log('Action performed')}>Uitvoeren</button>
-			</div>
-		{:else if currentNode.type === 'input'}
-			<h2>{currentNode.description}</h2>
-			<div class="explanation">
-				{@html currentNode.explanation}
-			</div>
-			<div class="options">
-				<input type="text" name={currentNode.variable} />
-				<button on:click={() => console.log('Input received')}>Verder</button>
-			</div>
-		{:else if currentNode.type === 'end'}
-			<h2>{currentNode.description}</h2>
-			<div class="explanation">
-				{@html currentNode.explanation}
-			</div>
-			<hr />
-		{/if}
-	</div>
+			{#if currentNode.explanation}
+				<div class="explanation">{currentNode.explanation}</div>
+			{/if}
+			{#if currentNode.type === 'start'}
+				<div class="options">
+					<button on:click={decisionHandler}>Start</button>
+				</div>
+			{:else if currentNode.type === 'decision'}
+				<div class="options">
+					{#each currentNode.options as option}
+						<button on:click={decisionHandler} value={option.nextStep}>{option.value}</button>
+					{/each}
+				</div>
+			{:else if currentNode.type === 'input'}
+				<div class="options">
+					<input type="text" bind:value={inputVariable} />
+					<button on:click={decisionHandler}>Ga verder</button>
+				</div>
+			{:else if currentNode.type === 'action'}
+				<div class="options">
+					<button on:click={decisionHandler}>Ga verder</button>
+				</div>
+			{:else if currentNode.type === 'end'}
+				<hr />
+				<h2>End of decision tree</h2>
+			{/if}
+		</div>
+	{/if}
 </main>
 
 <style>
@@ -207,6 +247,11 @@
 	.breadcrumb-wrapper span.end {
 		border-radius: 5px 15px 15px 5px;
 		margin-left: 0.15rem;
+	}
+
+	.make-selection {
+		text-align: center;
+		margin: 2rem 0;
 	}
 
 	.current-step {

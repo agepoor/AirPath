@@ -1,12 +1,26 @@
 <script>
+	import { get } from 'svelte/store';
 	import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
 	import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 	import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 	import { faBackwardStep } from '@fortawesome/free-solid-svg-icons';
 	import { faBackwardFast } from '@fortawesome/free-solid-svg-icons';
+	import { allDecisionTrees, currentDecisionTree, currentStep, stepHistory } from '$lib/stores';
 
-	export let trees;
-	export let newDecisionTree;
+	let trees = get(allDecisionTrees);
+	// Set new decision tree based on selected value, by updating the currentDecisionTree store
+	let newDecisionTree = (event) => {
+		const selectedTitle = event.target.value;
+		const selectedTreeData = trees.find((tree) => tree.title === selectedTitle);
+
+		if (selectedTreeData) {
+			currentDecisionTree.set(selectedTreeData);
+			currentStep.set(selectedTreeData.steps[0]);
+			stepHistory.set([]);
+		} else {
+			console.error('Selected decision tree data not found');
+		}
+	};
 </script>
 
 <header>

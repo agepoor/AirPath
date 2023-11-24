@@ -7,6 +7,7 @@ export async function load() {
 
 	const decisionTrees = await Promise.all(
 		Object.entries(decisionTreeFiles).map(async ([path, resolve]) => {
+			// @ts-ignore
 			const { default: content } = await resolve();
 			return {
 				title: content.title,

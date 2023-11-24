@@ -1,0 +1,77 @@
+{
+    "title": "Product Warranty Check",
+    "description": "A decision tree to determine if a product is still under warranty.",
+    "departments": {
+        "customer_service": "Customer Service",
+        "warehouse": "Warehouse",
+        "workshop": "Workshop"
+    },
+    "variables": {
+        "workOrderNumber": null,
+        "repairable": null,
+        "warrantyPeriod": null,
+        "reckoningPrice": null
+    },
+    "steps": [
+        {
+            "id": "root",
+            "type": "start",
+            "description": "Start warranty check.",
+            "nextStep": "warrantyPeriod"
+        },
+        {
+            "id": "warrantyPeriod",
+            "type": "decision",
+            "description": "Is the product still within the warranty period?",
+            "explanation": "The warranty period is 2 years.",
+            "options": [
+                {
+                    "value": "Yes",
+                    "nextStep": "workOrderNumber"
+                },
+                {
+                    "value": "No",
+                    "nextStep": "end"
+                }
+            ]
+        },
+        {
+            "id": "workOrderNumber",
+            "type": "input",
+            "description": "What is the work order number?",
+            "variable": "workOrderNumber",
+            "explanation": "The work order number can be found on the work order.",
+            "department": "workshop",
+            "nextStep": "repairable"
+        },
+        {
+            "id": "repairable",
+            "type": "decision",
+            "description": "Can the product be repaired?",
+            "options": [
+                {
+                    "value": "Yes",
+                    "nextStep": "reckoningPrice"
+                },
+                {
+                    "value": "No",
+                    "nextStep": "end"
+                }
+            ]
+        },
+        {
+            "id": "reckoningPrice",
+            "type": "input",
+            "description": "What is the reckoning price?",
+            "variable": "reckoningPrice",
+            "explanation": "The reckoning price can be found on the work order.",
+            "department": "workshop",
+            "nextStep": "end"
+        },
+        {
+            "id": "end",
+            "type": "end",
+            "description": "The product is not under warranty."
+        }
+    ]
+}
