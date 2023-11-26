@@ -141,6 +141,37 @@
 <main>
 	<div class="breadcrumbs">
 		<!-- TODO: Implement breadcrumbs logic-->
+		{#if breadcrumbs.length === 0}
+			<div class="breadcrumb-wrapper">
+				<span class="start">Start</span>
+			</div>
+		{/if}
+		{#each breadcrumbs as breadcrumb}
+			<div class="breadcrumb-wrapper">
+				{#if currentNode.type === 'start'}
+					<span class="start">Start</span>
+				{/if}
+				{#if breadcrumb.node.type === 'start'}
+					<span class="start">Start</span>
+				{:else if breadcrumb.node.type === 'end'}
+					<span class="end">End</span>
+				{:else if breadcrumb.node.type === 'decision'}
+					<span>{breadcrumb.node.description}</span>
+					<span class="answer">{breadcrumb.answer}</span>
+				{:else if breadcrumb.node.type === 'input'}
+					<span>{breadcrumb.node.description}</span>
+					<span class="variable">{breadcrumb.answer}</span>
+				{:else if breadcrumb.node.type === 'action'}
+					<span>{breadcrumb.node.description}</span>
+					<span class="answer">✔</span>
+				{/if}
+			</div>
+		{/each}
+		{#if currentNode.type === 'end'}
+			<div class="breadcrumb-wrapper">
+				<span class="end">End</span>
+			</div>
+		{/if}
 	</div>
 	{#if !currentNode}
 		<h2 class="make-selection">Selecteer een beslisboom</h2>
@@ -240,11 +271,13 @@
 	}
 
 	.breadcrumb-wrapper span.start {
+		background: rgb(182, 255, 185);
 		border-radius: 15px 5px 5px 15px;
 		margin-left: 0;
 	}
 
 	.breadcrumb-wrapper span.end {
+		background: rgb(255, 182, 182);
 		border-radius: 5px 15px 15px 5px;
 		margin-left: 0.15rem;
 	}
