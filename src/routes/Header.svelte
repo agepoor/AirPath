@@ -20,19 +20,45 @@
 		} else {
 			console.error('Selected decision tree data not found');
 		}
+		console.log('currentDecisionTree', get(currentDecisionTree));
+	};
+	let backwardStep = () => {
+		/* get last step from stepHistory */
+		if (get(stepHistory).length > 0) {
+			let lastStep = get(stepHistory)[get(stepHistory).length - 1];
+			currentStep.set(lastStep.node);
+			/* remove lastStep from stepHistory */
+			stepHistory.update((history) => history.slice(0, -1));
+		} else {
+			console.log('No more steps to go back to');
+		}
+	};
+	let backwardFast = () => {
+		/* This should go back to the start of the decision tree */
+		if (get(stepHistory).length > 0) {
+			currentStep.set(get(currentDecisionTree).steps[0]);
+			stepHistory.set([]);
+		} else {
+			console.log('No more steps to go back to');
+		}
 	};
 </script>
 
 <header>
 	<select on:change={newDecisionTree}>
+		<option disabled selected>Select a decision tree</option>
 		{#each trees as tree}
 			<option value={tree.title}>{tree.title}</option>
 		{/each}
 	</select>
 	<div class="header-options">
 		<button class="options-button"><FontAwesomeIcon icon={faFloppyDisk} /></button>
-		<button class="options-button"><FontAwesomeIcon icon={faBackwardStep} /></button>
-		<button class="options-button"><FontAwesomeIcon icon={faBackwardFast} /></button>
+		<button class="options-button" on:click={backwardStep}
+			><FontAwesomeIcon icon={faBackwardStep} /></button
+		>
+		<button class="options-button" on:click={backwardFast}
+			><FontAwesomeIcon icon={faBackwardFast} /></button
+		>
 	</div>
 </header>
 
@@ -42,6 +68,7 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 1rem;
+		margin-bottom: 2rem;
 		box-shadow: var(--shadow);
 	}
 	select,

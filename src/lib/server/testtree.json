@@ -1,0 +1,43 @@
+{
+	"title": "Koken",
+	"description": "Hoe maak ik snel eten",
+	"departments": {
+		"Thuis": "Eigen keuken"
+	},
+	"variables": {
+		"aantal_personen": null
+	},
+	"steps": [
+		{
+			"id": "root",
+			"type": "start",
+			"description": "Start het kookproces",
+			"nextStep": "koelkast"
+		},
+		{
+			"id": "koelkast",
+			"type": "action",
+			"description": "Kijk in de koelkast",
+			"explanation": "<p>Kijk naar de ingredienten die al in de koelkast liggen</p>",
+			"nextStep": "kies_info"
+		},
+		{
+			"id": "kies_info",
+			"type": "decision",
+			"description": "Kies inspiratiebron",
+			"explanation": "<p>Kies hier de inspiratiebron die je wil gebruiken</p>",
+			"options": [
+				{
+					"value": "ChatGPT",
+					"nextStep": "end"
+				}
+			]
+		},
+		{
+			"id": "end",
+			"type": "end",
+			"description": "End Step Description",
+			"explanation": "<p>End Step Explanation</p>"
+		}
+	]
+}

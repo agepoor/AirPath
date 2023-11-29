@@ -1,32 +1,18 @@
-// @ts-nocheck
-// In src/lib/stores.js
-import { writable, derived } from 'svelte/store';
-
-const allDecisionTrees = writable();
-const currentDecisionTree = writable({});
-const currentStep = writable({});
-const stepHistory = writable([]);
-const currentDepartment = derived(
-	/* Checks if the current step has a department property and returns the department from the current decision tree. */
-	[currentDecisionTree, currentStep],
-	([$currentDecisionTree, $currentStep]) => {
-		if ($currentStep && $currentStep.department) {
-			return $currentDecisionTree.departments[$currentStep.department];
-		}
-		return null;
-	}
-);
-
-export { allDecisionTrees, currentDecisionTree, currentStep, stepHistory, currentDepartment };
-
-/*
-    {
+{
     "title": "Christmas Present Selection Guide",
     "description": "A decision tree to assist in choosing the ideal Christmas present.",
     "departments": {
         "gift_advisor": {
             "name": "Gift Advisor",
             "description": "A department that provides gift recommendations based on the recipient's interests."
+        },
+        "gift_finder": {
+            "name": "Gift Finder",
+            "description": "A department that helps you find the perfect gift based on your budget."
+        },
+        "shopping_mall": {
+            "name": "Shopping Mall",
+            "description": "A department that helps you find the perfect gift based on your budget."
         }
     },
     "variables": {
@@ -129,4 +115,3 @@ export { allDecisionTrees, currentDecisionTree, currentStep, stepHistory, curren
         }
     ]
 }
-    */

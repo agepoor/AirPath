@@ -2,10 +2,23 @@
   "title": "Garantieprocedure",
   "description": "Deze beslisboom helpt medewerkers door de garantieprocedure van een product.",
   "departments": {
-    "customer_service": "Klantenservice",
-    "technical_support": "Technische Ondersteuning",
-    "shipping_department": "Verzendafdeling",
-    "accounting": "Boekhouding"
+    "customer_service": 
+    {
+      "name": "Klantenservice",
+      "description": "De klantenservice is het eerste aanspreekpunt voor klanten. Zij helpen klanten met vragen en problemen."
+    },
+    "technical_support": {
+      "name": "Technische ondersteuning",
+      "description": "De technische ondersteuning helpt klanten met technische problemen."
+    },
+    "shipping_department": {
+      "name": "Verzendafdeling",
+      "description": "De verzendafdeling regelt de verzending van producten."
+    },
+    "accounting": {
+      "name": "Boekhouding",
+      "description": "De boekhouding houdt zich bezig met de financiële administratie van het bedrijf."
+    }
   },
   "variables": {
     "workOrderNumber": null,

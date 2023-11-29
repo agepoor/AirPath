@@ -12,6 +12,7 @@ export async function load() {
 			return {
 				title: content.title,
 				description: content.description,
+				departments: content.departments,
 				steps: content.steps,
 				path
 			};

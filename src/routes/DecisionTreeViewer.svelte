@@ -3,6 +3,15 @@
 	// 	{
 	//   "title": "Pricing and Transportation Costs Decision Tree",
 	//   "description": "This decision tree guides employees through pricing and transportation costs for different order types.",
+	//   "departments": {
+	//     "customer_service": {
+	//       "name": "Customer Service",
+	//       "description": "Customer service is responsible for handling orders from customers."
+	// },
+	//     "technical_support": "Technische Ondersteuning",
+	//     "shipping_department": "Verzendafdeling",
+	//     "accounting": "Boekhouding"
+	//   },
 	//   "steps": [
 	//     {
 	//       "id": "root",
@@ -70,6 +79,7 @@
 	//       "id": "sonderkunden_mit_sonderpreisen",
 	//       "type": "action",
 	//       "description": "Verify unknown customers or provide order numbers for review before processing.",
+	// "department": "customer_service",
 	//       "nextStep": "end_viktoria"
 	//     },
 	//     {
@@ -86,7 +96,7 @@
 	// }
 
 	import { get } from 'svelte/store';
-	import { currentDecisionTree, currentStep, stepHistory } from '$lib/stores';
+	import { currentDecisionTree, currentStep, stepHistory, currentDepartment } from '$lib/stores';
 	let tree;
 	currentDecisionTree.subscribe((value) => (tree = value));
 	let currentNode;
@@ -94,6 +104,8 @@
 	let breadcrumbs;
 	stepHistory.subscribe((value) => (breadcrumbs = value));
 	let inputVariable;
+
+	$: console.log($currentDepartment);
 
 	// The decision handler function
 	let decisionHandler = (event) => {
@@ -139,47 +151,48 @@
 </script>
 
 <main>
-	<div class="breadcrumbs">
-		<!-- TODO: Implement breadcrumbs logic-->
-		{#if breadcrumbs.length === 0}
-			<div class="breadcrumb-wrapper">
-				<span class="start">Start</span>
-			</div>
-		{/if}
-		{#each breadcrumbs as breadcrumb}
-			<div class="breadcrumb-wrapper">
-				{#if currentNode.type === 'start'}
-					<span class="start">Start</span>
-				{/if}
-				{#if breadcrumb.node.type === 'start'}
-					<span class="start">Start</span>
-				{:else if breadcrumb.node.type === 'end'}
+	<!-- TODO: Implement breadcrumbs logic-->
+	{#if breadcrumbs.length > 0}
+		<div class="breadcrumbs">
+			{#each breadcrumbs as breadcrumb, i}
+				<div class="breadcrumb-wrapper">
+					{#if breadcrumb.node.type === 'start'}
+						<span class="start">Start</span>
+					{:else if breadcrumb.node.type === 'end'}
+						<span class="end">End</span>
+					{:else if breadcrumb.node.type === 'decision'}
+						<span>{i}. {breadcrumb.node.description}</span>
+						<span class="answer">{breadcrumb.answer}</span>
+					{:else if breadcrumb.node.type === 'input'}
+						<span>{i}. {breadcrumb.node.description}</span>
+						{#if breadcrumb.answer}
+							<span class="variable">{breadcrumb.answer}</span>
+						{:else}
+							<span class="variable">...</span>
+						{/if}
+					{:else if breadcrumb.node.type === 'action'}
+						<span>{i}. {breadcrumb.node.description}</span>
+						<span class="answer">✔</span>
+					{/if}
+				</div>
+			{/each}
+			{#if currentNode.type === 'end'}
+				<div class="breadcrumb-wrapper">
 					<span class="end">End</span>
-				{:else if breadcrumb.node.type === 'decision'}
-					<span>{breadcrumb.node.description}</span>
-					<span class="answer">{breadcrumb.answer}</span>
-				{:else if breadcrumb.node.type === 'input'}
-					<span>{breadcrumb.node.description}</span>
-					<span class="variable">{breadcrumb.answer}</span>
-				{:else if breadcrumb.node.type === 'action'}
-					<span>{breadcrumb.node.description}</span>
-					<span class="answer">✔</span>
-				{/if}
-			</div>
-		{/each}
-		{#if currentNode.type === 'end'}
-			<div class="breadcrumb-wrapper">
-				<span class="end">End</span>
-			</div>
-		{/if}
-	</div>
-	{#if !currentNode}
+				</div>
+			{/if}
+		</div>
+	{/if}
+
+	{#if !currentNode.type}
 		<h2 class="make-selection">Selecteer een beslisboom</h2>
 	{:else}
 		<div class="current-step">
-			<h2>{currentNode.description}</h2>
+			<h2>
+				{currentNode.description}{#if currentNode.department}*{/if}
+			</h2>
 			{#if currentNode.explanation}
-				<div class="explanation">{currentNode.explanation}</div>
+				<div class="explanation"><p>{@html currentNode.explanation}</p></div>
 			{/if}
 			{#if currentNode.type === 'start'}
 				<div class="options">
@@ -203,6 +216,13 @@
 			{:else if currentNode.type === 'end'}
 				<hr />
 				<h2>End of decision tree</h2>
+			{/if}
+			{#if $currentDepartment}
+				<div class="department-info">
+					<p>
+						<em>*Handled by department:</em> <strong>{$currentDepartment.name}</strong> - {$currentDepartment.description}
+					</p>
+				</div>
 			{/if}
 		</div>
 	{/if}
@@ -233,6 +253,13 @@
 		display: flex;
 		align-items: center;
 	}
+	.breadcrumb-wrapper em.counter {
+		font-style: normal;
+		font-weight: 500;
+		font-size: 0.85rem;
+		color: #666;
+		margin-right: 0.5rem;
+	}
 	.breadcrumb-wrapper span {
 		white-space: nowrap;
 		padding: 0.5rem 1rem;
@@ -246,8 +273,8 @@
 	}
 
 	.breadcrumb-wrapper span:hover {
-		background-color: #d4d4d4; /* Slightly darker on hover */
-		color: #333;
+		/* background-color: #d4d4d4; /* Slightly darker on hover */
+		/* color: #333; */
 	}
 
 	.breadcrumb-wrapper span.answer {
@@ -271,13 +298,15 @@
 	}
 
 	.breadcrumb-wrapper span.start {
-		background: rgb(182, 255, 185);
+		/* background: rgb(182, 255, 185); */
+		background: none;
 		border-radius: 15px 5px 5px 15px;
 		margin-left: 0;
 	}
 
 	.breadcrumb-wrapper span.end {
-		background: rgb(255, 182, 182);
+		/* background: rgb(255, 182, 182); */
+		background: none;
 		border-radius: 5px 15px 15px 5px;
 		margin-left: 0.15rem;
 	}
@@ -285,6 +314,33 @@
 	.make-selection {
 		text-align: center;
 		margin: 2rem 0;
+	}
+
+	/* TODO: Very subtle department styling */
+	/* Style for the current step */
+	.current-step {
+		/* existing styles */
+		margin-bottom: 1rem; /* add a bit of margin at the bottom */
+	}
+
+	/* Style for the department information within the current step */
+	.department-info {
+		margin-top: 2rem; /* Spacing from the main content */
+		padding-top: 0.5rem; /* Padding from the preceding text */
+		border-top: 1px solid #ddd; /* Dashed line for a subtle separation */
+		font-size: 0.85rem; /* Slightly smaller font size */
+		color: #666; /* Soft color for the text */
+	}
+
+	.department-info em {
+		font-style: italic; /* Italicize 'Handled by department' for emphasis */
+		margin-right: 0.25rem; /* Space after the label */
+		color: #666; /* Matching color for a cohesive look */
+	}
+
+	.department-info strong {
+		font-weight: bold; /* Bold for the department name */
+		color: #333; /* Slightly darker for emphasis */
 	}
 
 	.current-step {
@@ -302,8 +358,8 @@
 	.current-step .explanation {
 		background: #f9f9f9; /* Subtle background color */
 		color: #555; /* Dark gray color for text */
-		font-size: 0.9rem; /* Slightly smaller font size */
-		padding: 1rem; /* Adequate padding */
+		/* font-size: 0.9rem; Slightly smaller font size */
+		padding: 1rem 2rem; /* Adequate padding */
 		margin-top: 1rem; /* Margin to separate from question */
 		border-left: 4px solid #2193b0; /* Left border for emphasis */
 		box-shadow: var(--shadow); /* Soft shadow */

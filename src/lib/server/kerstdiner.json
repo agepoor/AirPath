@@ -1,0 +1,115 @@
+{
+    "title": "Kerstdiner Voorbereidingsgids",
+    "description": "Een beslisboom om te helpen bij het plannen en voorbereiden van een kerstdiner.",
+    "departments": {
+        "menu_planning": {
+            "name": "Menu Planning",
+            "description": "Een afdeling die helpt bij het kiezen van gerechten voor het diner."
+        },
+        "budget_management": {
+            "name": "Budget Management",
+            "description": "Een afdeling die helpt bij het beheren van het budget voor het diner."
+        }
+    },
+    "variables": {
+        "dinerType": null,
+        "mainDish": null,
+        "sideDishes": null,
+        "dessert": null,
+        "budget": null,
+        "guestPreferences": null
+    },
+    "steps": [
+        {
+            "id": "root",
+            "type": "start",
+            "description": "Begin de planning van je kerstdiner.",
+            "nextStep": "dinerType"
+        },
+        {
+            "id": "dinerType",
+            "type": "decision",
+            "description": "Kies het type diner.",
+            "explanation": "<h3>Type Diner</h3><p>Kies tussen een traditioneel, modern, of vegetarisch kerstdiner.</p>",
+            "options": [
+                {
+                    "value": "Traditioneel",
+                    "nextStep": "traditionalMenu"
+                },
+                {
+                    "value": "Modern",
+                    "nextStep": "modernMenu"
+                },
+                {
+                    "value": "Vegetarisch",
+                    "nextStep": "vegetarianMenu"
+                }
+            ]
+        },
+        {
+            "id": "traditionalMenu",
+            "type": "input",
+            "description": "Kies de gerechten voor een traditioneel kerstdiner.",
+            "variable": "mainDish",
+            "explanation": "<h4>Traditioneel Menu</h4><p>Kies voor klassieke gerechten zoals kalkoen, aardappelen en spruitjes.</p>",
+            "department": "menu_planning",
+            "nextStep": "budget"
+        },
+        {
+            "id": "modernMenu",
+            "type": "input",
+            "description": "Kies de gerechten voor een modern kerstdiner.",
+            "variable": "mainDish",
+            "explanation": "<h4>Modern Menu</h4><p>Overweeg fusion-gerechten, internationale keukens, of innovatieve culinaire trends.</p>",
+            "department": "menu_planning",
+            "nextStep": "budget"
+        },
+        {
+            "id": "vegetarianMenu",
+            "type": "input",
+            "description": "Kies de gerechten voor een vegetarisch kerstdiner.",
+            "variable": "mainDish",
+            "explanation": "<h4>Vegetarisch Menu</h4><p>Focus op plantaardige gerechten, zoals vegetarische stoofschotels, salades en creatieve bijgerechten.</p>",
+            "department": "menu_planning",
+            "nextStep": "budget"
+        },
+        {
+            "id": "budget",
+            "type": "decision",
+            "description": "Wat is je budget voor het diner?",
+            "explanation": "<h3>Budgetplanning</h3><p>Kies een budget dat past bij jouw financiële mogelijkheden.</p>",
+            "options": [
+                {
+                    "value": "Laag",
+                    "nextStep": "lowBudgetOptions"
+                },
+                {
+                    "value": "Gemiddeld",
+                    "nextStep": "mediumBudgetOptions"
+                },
+                {
+                    "value": "Hoog",
+                    "nextStep": "highBudgetOptions"
+                }
+            ]
+        },
+        {
+            "id": "lowBudgetOptions",
+            "type": "end",
+            "description": "Opties voor een laag budget",
+            "explanation": "<p>Kies voor eenvoudige, zelfgemaakte gerechten en decoraties. Overweeg potluck-stijl waarbij gasten een gerecht meenemen.</p>"
+        },
+        {
+            "id": "mediumBudgetOptions",
+            "type": "end",
+            "description": "Opties voor een gemiddeld budget",
+            "explanation": "<p>Balanseer tussen zelfgemaakte gerechten en enkele speciaal gekochte items. Focus op een paar hoogtepunt gerechten.</p>"
+        },
+        {
+            "id": "highBudgetOptions",
+            "type": "end",
+            "description": "Opties voor een hoog budget",
+            "explanation": "<p>Overweeg catering of luxueuze ingrediënten. Decoreer met professionele decoraties en tafelaankleding.</p>"
+        }
+    ]
+}
