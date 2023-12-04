@@ -3,7 +3,7 @@
  * @returns {Promise<{ props: { decisionTrees: Array<{ title: string, description: string, steps: Array<any>, path: string }> } }>}
  */
 export async function load() {
-	const decisionTreeFiles = import.meta.glob('../lib/server/*.json');
+	const decisionTreeFiles = import.meta.glob('../lib/*.json');
 
 	const decisionTrees = await Promise.all(
 		Object.entries(decisionTreeFiles).map(async ([path, resolve]) => {
