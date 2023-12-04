@@ -8,8 +8,8 @@
 	let trees = get(allDecisionTrees);
 	console.log(trees);
 
-	import Header from './Header.svelte';
-	import DecisionTreeViewer from './DecisionTreeViewer.svelte';
+	import Header from './components/Header.svelte';
+	import DecisionTreeViewer from './components/DecisionTreeViewer.svelte';
 </script>
 
 <body class="light-theme">

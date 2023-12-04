@@ -16,8 +16,18 @@ const currentDepartment = derived(
 		return null;
 	}
 );
+const inputValue = writable('');
+const currentVariables = writable({});
 
-export { allDecisionTrees, currentDecisionTree, currentStep, stepHistory, currentDepartment };
+export {
+	allDecisionTrees,
+	currentDecisionTree,
+	currentStep,
+	stepHistory,
+	currentDepartment,
+	inputValue,
+	currentVariables
+};
 
 /*
     {

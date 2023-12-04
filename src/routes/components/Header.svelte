@@ -5,7 +5,13 @@
 	import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 	import { faBackwardStep } from '@fortawesome/free-solid-svg-icons';
 	import { faBackwardFast } from '@fortawesome/free-solid-svg-icons';
-	import { allDecisionTrees, currentDecisionTree, currentStep, stepHistory } from '$lib/stores';
+	import {
+		allDecisionTrees,
+		currentDecisionTree,
+		currentStep,
+		stepHistory,
+		inputValue
+	} from '$lib/stores';
 
 	let trees = get(allDecisionTrees);
 	// Set new decision tree based on selected value, by updating the currentDecisionTree store
@@ -20,13 +26,22 @@
 		} else {
 			console.error('Selected decision tree data not found');
 		}
-		console.log('currentDecisionTree', get(currentDecisionTree));
 	};
 	let backwardStep = () => {
 		/* get last step from stepHistory */
 		if (get(stepHistory).length > 0) {
 			let lastStep = get(stepHistory)[get(stepHistory).length - 1];
+			/* check if last step had answer in stepHistory */
+			// lastStep had answer then we want to set the input value to that answer
+			if (lastStep.answer && lastStep.node.type === 'input') {
+				inputValue.set(lastStep.answer);
+				console.log('lastStep had answer');
+				console.log(lastStep.answer);
+			}
+
+			/* set currentStep to lastStep */
 			currentStep.set(lastStep.node);
+
 			/* remove lastStep from stepHistory */
 			stepHistory.update((history) => history.slice(0, -1));
 		} else {
