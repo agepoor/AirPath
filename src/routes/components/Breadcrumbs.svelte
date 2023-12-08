@@ -60,9 +60,9 @@
 		margin-top: 1rem;
 		padding: 0.5rem;
 		gap: 0.5rem;
-		background: #f7f7f7; /* Light background for the breadcrumb container */
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		border-radius: 5px;
+		background: var(--light-info-background); /* Light background for the breadcrumb container */
+		box-shadow: var(--light-shadow); /* Light shadow for the breadcrumb container */
+		border-radius: 5px 0px 0px 5px;
 		margin-bottom: 1rem;
 		width: 700px; /* Match the width of the current-step element */
 	}

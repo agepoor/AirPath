@@ -10,6 +10,7 @@
 		currentDecisionTree,
 		currentStep,
 		stepHistory,
+		currentVariables,
 		inputValue
 	} from '$lib/stores';
 
@@ -23,6 +24,8 @@
 			currentDecisionTree.set(selectedTreeData);
 			currentStep.set(selectedTreeData.steps[0]);
 			stepHistory.set([]);
+			currentVariables.set(selectedTreeData.variables);
+			console.log($currentVariables);
 		} else {
 			console.error('Selected decision tree data not found');
 		}
@@ -67,7 +70,7 @@
 		{/each}
 	</select>
 	<div class="header-options">
-		<button class="options-button"><FontAwesomeIcon icon={faFloppyDisk} /></button>
+		<button class="options-button" disabled><FontAwesomeIcon icon={faFloppyDisk} /></button>
 		<button class="options-button" on:click={backwardStep}
 			><FontAwesomeIcon icon={faBackwardStep} /></button
 		>
@@ -86,6 +89,12 @@
 		margin-bottom: 2rem;
 		box-shadow: var(--shadow);
 	}
+	select {
+		border: 0.05rem solid var(--light-border);
+		background-color: var(--light-background);
+		color: var(--light-text);
+		border-radius: var(--border-radius);
+	}
 	select,
 	button {
 		padding: 0.75rem 1rem;
@@ -94,9 +103,18 @@
 		display: flex;
 	}
 	.options-button {
+		background: var(--light-button);
 		cursor: pointer;
 		border: 0px solid transparent;
 		margin-left: 1rem;
 		border-radius: 50%;
+	}
+	.options-button:hover {
+		background: var(--light-button-hover);
+	}
+	/* disabled */
+	.options-button:disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
 	}
 </style>

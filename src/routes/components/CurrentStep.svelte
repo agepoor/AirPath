@@ -9,7 +9,7 @@
 {#if !currentNode.type}
 	<h2 class="make-selection">Selecteer een beslisboom</h2>
 {:else}
-	<div class="current-step">
+	<div class="current-step modal">
 		<h2>
 			{currentNode.description}{#if currentNode.department}*{/if}
 		</h2>
@@ -59,7 +59,7 @@
 	/* Style for the current step */
 	.current-step {
 		/* existing styles */
-		margin-bottom: 1rem; /* add a bit of margin at the bottom */
+		margin-bottom: 2rem; /* add a bit of margin at the bottom */
 	}
 
 	/* Style for the department information within the current step */
@@ -87,15 +87,13 @@
 		flex-direction: column;
 		padding: 2rem;
 		width: 700px;
-		box-shadow: var(--shadow);
-		/* Add styles for current step */
 	}
 	.current-step h2 {
 		text-align: center;
 		margin-bottom: 1rem;
 	}
 	.current-step .explanation {
-		background: #f9f9f9; /* Subtle background color */
+		background: var(--light-info-background); /* Subtle background color */
 		color: #555; /* Dark gray color for text */
 		/* font-size: 0.9rem; Slightly smaller font size */
 		padding: 1rem 2rem; /* Adequate padding */
@@ -116,7 +114,7 @@
 		flex-direction: row;
 	}
 	.current-step .options button {
-		background: #f0f0f0; /* Subtle solid background */
+		background: var(--light-button); /* Subtle solid background */
 		cursor: pointer;
 		margin: 0 0.5rem;
 		padding: 0.8rem 1.5rem; /* Adjusted padding */
@@ -131,7 +129,7 @@
 	}
 
 	.current-step .options button:hover {
-		background: #e8e8e8; /* Slight change in background on hover */
+		background: var(--light-button-hover); /* Slight change in background on hover */
 		box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15); /* Slightly more pronounced shadow on hover */
 	}
 
