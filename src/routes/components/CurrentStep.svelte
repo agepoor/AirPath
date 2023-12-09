@@ -63,6 +63,7 @@
 	/* TODO: Very subtle department styling */
 	/* Style for the current step */
 	.current-step {
+		background: #fff;
 		/* existing styles */
 		margin-bottom: 2rem; /* add a bit of margin at the bottom */
 	}

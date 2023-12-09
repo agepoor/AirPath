@@ -19,7 +19,7 @@
 	}
 </script>
 
-<body>
+<body class="snowflakes-container">
 	<Header />
 	<main class="main-container">
 		<section>

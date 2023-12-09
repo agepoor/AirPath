@@ -84,6 +84,7 @@
 <style>
 	header {
 		grid-area: header;
+		background-color: #fff;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
