@@ -43,7 +43,8 @@ body {
 /* Common Styles for UI Elements */
 .button,
 .card,
-.modal {
+.modal,
+.input {
     border-radius: var(--border-radius);
     box-shadow: var(--light-shadow);
 }

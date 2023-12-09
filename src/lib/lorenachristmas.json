@@ -1,0 +1,127 @@
+{
+	"title": "Valencia Christmas Celebration Guide for Lorena",
+	"description": "A personalized decision tree to help Lorena celebrate Christmas in Valencia.",
+	"departments": {
+		"culture_guide": {
+			"name": "Culture Guide",
+			"description": "Provides information about local customs and traditions."
+		},
+		"event_planner": {
+			"name": "Event Planner",
+			"description": "Helps in planning and attending events and activities."
+		},
+		"culinary_advisor": {
+			"name": "Culinary Advisor",
+			"description": "Offers guidance on local cuisines and dining options."
+		}
+	},
+	"variables": {
+		"interestInTraditions": {
+			"name": "Interested in Traditions",
+			"value": null
+		},
+		"interestInFood": {
+			"name": "Interested in Food",
+			"value": null
+		},
+		"interestInEvents": {
+			"name": "Interested in Events",
+			"value": null
+		},
+		"preferredActivityType": {
+			"name": "Preferred Activity Type",
+			"value": null
+		},
+		"favoriteCuisine": {
+			"name": "Favorite Cuisine",
+			"value": null
+		}
+	},
+	"steps": [
+		{
+			"id": "root",
+			"type": "start",
+			"description": "Start planning your Christmas celebration in Valencia, Lorena.",
+			"nextStep": "interestInTraditions"
+		},
+		{
+			"id": "interestInTraditions",
+			"type": "decision",
+			"description": "Are you interested in exploring local Christmas traditions?",
+			"explanation": "<h3>Valencian Traditions</h3><p>Valencia has rich Christmas traditions including unique decorations, nativity scenes, and special church services.</p>",
+			"options": [
+				{
+					"value": "Yes",
+					"nextStep": "traditionsDetail"
+				},
+				{
+					"value": "No",
+					"nextStep": "interestInFood"
+				}
+			]
+		},
+		{
+			"id": "traditionsDetail",
+			"type": "end",
+			"description": "Explore Valencian Christmas Traditions",
+			"explanation": "<p>Visit the famous Nativity scenes, attend the Christmas Eve Mass, and enjoy the city's festive decorations.</p>",
+			"department": "culture_guide"
+		},
+		{
+			"id": "interestInFood",
+			"type": "decision",
+			"description": "Would you like to try traditional Valencian Christmas dishes?",
+			"explanation": "<h3>Valencian Cuisine</h3><p>Christmas in Valencia is a great time to savor traditional dishes like 'turron' and 'buñuelos'.</p>",
+			"options": [
+				{
+					"value": "Yes",
+					"nextStep": "foodDetail"
+				},
+				{
+					"value": "No",
+					"nextStep": "interestInEvents"
+				}
+			]
+		},
+		{
+			"id": "foodDetail",
+			"type": "input",
+			"description": "What is your favorite type of cuisine?",
+			"variable": "favoriteCuisine",
+			"explanation": "<h4>Favorite Cuisine</h4><p>Tell us your preferred flavors or dishes, and we'll recommend the best Valencian Christmas foods that match your taste!</p>",
+			"department": "culinary_advisor",
+			"nextStep": "interestInEvents"
+		},
+		{
+			"id": "interestInEvents",
+			"type": "decision",
+			"description": "Are you interested in attending Christmas events in Valencia?",
+			"explanation": "<h3>Christmas Events</h3><p>Valencia hosts various events during Christmas, including markets, concerts, and light shows.</p>",
+			"options": [
+				{
+					"value": "Yes",
+					"nextStep": "eventsPreference"
+				},
+				{
+					"value": "No",
+					"nextStep": "endCelebration"
+				}
+			]
+		},
+		{
+			"id": "eventsPreference",
+			"type": "input",
+			"description": "What type of events do you prefer?",
+			"variable": "preferredActivityType",
+			"explanation": "<h4>Event Preferences</h4><p>Whether you enjoy lively street festivals, serene church concerts, or vibrant markets, let us know so we can guide you to the best events.</p>",
+			"department": "event_planner",
+			"nextStep": "endCelebration"
+		},
+		{
+			"id": "endCelebration",
+			"type": "end",
+			"description": "Your Personalized Christmas Celebration Plan",
+			"explanation": "<p>Based on your preferences, enjoy a tailored Christmas experience in Valencia. Embrace the aspects you love most about the holiday season.</p><p><img src='https://upload.wikimedia.org/wikipedia/commons/0/0e/Ayuntamiento_en_Navidad_%28Valencia%29.jpg' alt='Christmas in Valencia'></p>"
+		}
+	]
+}

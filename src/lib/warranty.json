@@ -21,7 +21,7 @@
 	},
 	"variables": {
 		"workOrderNumber": {
-			"name": "Werkorder nummer",
+			"name": "Werkordernummer",
 			"value": null
 		}
 	},
@@ -36,7 +36,7 @@
 			"id": "warranty_period",
 			"type": "decision",
 			"description": "Is de garantieperiode nog geldig?",
-			"explanation": "De garantieperiode is 2 jaar na aankoop van het product.",
+			"explanation": "<p><strong>Garantieperiodes:</strong></p><table><thead><tr><th>Product</th><th>A: Datum inbedrijfstelling</th><th>B: Datum levering<br></th><th>C: Limiet urenstand<br></th></tr></thead><tbody><tr><td>Olievrije zuigercompressoren</td><td>12 maanden</td><td>18 maanden</td><td>1.000 uur</td></tr><tr><td>Industriële zuigercompressoren</td><td>36 maanden</td><td>36 maanden</td><td>2.000 uur</td></tr><tr><td>Groene serie zuigercompressoren</td><td>36 maanden</td><td>36 maanden</td><td>1.000 uur</td></tr><tr><td>Schroefcompressoren</td><td>36 maanden</td><td>36 maanden</td><td>12.000 uur</td></tr><tr><td>Koeldrogers</td><td>24 maanden</td><td>24 maanden</td><td>Geen limiet</td></tr><tr><td>Adsorptiedrogers</td><td>24 maanden</td><td>24 maanden</td><td>8.000 uur</td></tr></tbody></table><br><p>Voor regelaars hanteren we 1 jaar, voor onderdelen 3 maanden.</p><p>Raadpleeg voor twijfelgevallen en specifiekere informatie de garantiebepalingen van Airpress.</p><p>Transportschade wordt op een andere manier afgehandeld.</p>",
 			"options": [
 				{
 					"value": "Ja",
@@ -46,8 +46,7 @@
 					"value": "Nee",
 					"nextStep": "out_of_warranty"
 				}
-			],
-			"department": "customer_service"
+			]
 		},
 		{
 			"id": "repairable_check",
@@ -150,7 +149,8 @@
 		{
 			"id": "end",
 			"type": "end",
-			"description": "Dit is het einde van de garantieprocedure."
+			"description": "Dit is het einde van de garantieprocedure.",
+			"explanation": "<img src=\"https://media.tenor.com/jvDyDzlpvC4AAAAj/banana-happy.gif\" alt=\"End of the line\">"
 		}
 	]
 }

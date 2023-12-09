@@ -72,20 +72,11 @@
 		console.log($inputValue);
 		inputValue.set('');
 		console.log($inputValue);
+		console.log($currentStep);
 	};
 </script>
 
-<main>
-	<Breadcrumbs {breadcrumbs} {currentNode} />
-	<CurrentStep {currentNode} {decisionHandler} currentDepartment={$currentDepartment} />
-	<Memos />
-	<Notes />
-</main>
-
-<style>
-	main {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-</style>
+<Breadcrumbs {breadcrumbs} {currentNode} />
+<CurrentStep {currentNode} {decisionHandler} currentDepartment={$currentDepartment} />
+<Memos />
+<Notes />

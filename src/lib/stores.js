@@ -5,6 +5,7 @@ import { writable, derived } from 'svelte/store';
 const allDecisionTrees = writable();
 const currentDecisionTree = writable({});
 const currentStep = writable({});
+const highlightedStep = writable({});
 const stepHistory = writable([]);
 const currentDepartment = derived(
 	/* Checks if the current step has a department property and returns the department from the current decision tree. */
@@ -23,6 +24,7 @@ export {
 	allDecisionTrees,
 	currentDecisionTree,
 	currentStep,
+	highlightedStep,
 	stepHistory,
 	currentDepartment,
 	inputValue,

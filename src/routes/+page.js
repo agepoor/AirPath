@@ -3,8 +3,8 @@
  * @returns {Promise<{ props: { decisionTrees: Array<{ title: string, description: string, steps: Array<any>, path: string }> } }>}
  */
 export async function load() {
-	// import specific files
-	const decisionTreeFiles = import.meta.glob('../lib/warranty.json');
+	// remove all files that don't match the following names
+	const decisionTreeFiles = import.meta.glob(['../lib/lorenachristmas.json']);
 
 	// const decisionTreeFiles = import.meta.glob('../lib/*.json');
 

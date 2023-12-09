@@ -46,8 +46,8 @@
 	<div class="memos">
 		{#each Object.keys(variables) as variable}
 			{#if variables[variable].value !== null}
-				<div class="memo">
-					<i>{variables[variable].name}</i>:
+				<div class="memo card">
+					<span class="name">{variables[variable].name}</span>:
 					{variables[variable].value}
 				</div>
 			{/if}
@@ -65,9 +65,12 @@
 		justify-content: center;
 	}
 	.memo {
+		border-left: 4px solid rgba(193, 193, 0, 0.5);
 		font-size: 0.7rem;
-		border: 1px solid #ddd;
-		background-color: rgba(255, 255, 0, 0.258);
+		background-color: var(--light-info-background);
 		padding: 10px;
+	}
+	.memo .name {
+		font-weight: 600;
 	}
 </style>

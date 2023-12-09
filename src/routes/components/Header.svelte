@@ -26,6 +26,7 @@
 			stepHistory.set([]);
 			currentVariables.set(selectedTreeData.variables);
 			console.log($currentVariables);
+			console.log($currentDecisionTree);
 		} else {
 			console.error('Selected decision tree data not found');
 		}
@@ -62,7 +63,7 @@
 	};
 </script>
 
-<header>
+<header class="modal">
 	<select on:change={newDecisionTree}>
 		<option disabled selected>Select a decision tree</option>
 		{#each trees as tree}
@@ -82,12 +83,12 @@
 
 <style>
 	header {
+		grid-area: header;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding: 1rem;
 		margin-bottom: 2rem;
-		box-shadow: var(--shadow);
 	}
 	select {
 		border: 0.05rem solid var(--light-border);

@@ -28,7 +28,7 @@
 			</div>
 		{:else if currentNode.type === 'input'}
 			<div class="options">
-				<input type="text" bind:value={$inputValue} />
+				<input type="text" bind:value={$inputValue} class="input" placeholder="Type here..." />
 				<button on:click={decisionHandler}>Ga verder</button>
 			</div>
 		{:else if currentNode.type === 'action'}
@@ -98,7 +98,7 @@
 		/* font-size: 0.9rem; Slightly smaller font size */
 		padding: 1rem 2rem; /* Adequate padding */
 		margin-top: 1rem; /* Margin to separate from question */
-		border-left: 4px solid #2193b0; /* Left border for emphasis */
+		border-left: 4px solid #d20a11; /* Left border for emphasis */
 		box-shadow: var(--shadow); /* Soft shadow */
 		border-radius: 4px; /* Rounded corners */
 	}
@@ -107,12 +107,49 @@
 		margin: 0.5rem 0;
 	}
 
+	:global(.current-step .explanation table) {
+		font-size: 0.9rem; /* Slightly smaller font size */
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	:global(.current-step .explanation table th),
+	:global(.current-step .explanation table td) {
+		padding: 0.8rem; /* Ample padding for readability */
+		border-bottom: 1px solid #e0e0e0; /* Subtle border for each cell */
+		text-align: left; /* Aligns text to the left */
+		color: #666; /* Soft color for the text */
+	}
+
+	:global(.current-step .explanation table th) {
+		background-color: #f8f8f8; /* Light background for headers */
+		text-transform: capitalize; /* Capitalized header text */
+		font-weight: 600; /* Slightly bolder than data cells */
+	}
+
+	:global(.current-step .explanation table tr:hover) {
+		background-color: #f0f0f0; /* Gentle hover effect */
+	}
+
+	:global(.current-step .explanation img) {
+		margin: 1rem 0;
+		max-width: 100%;
+	}
+
 	.current-step .options {
 		display: flex;
 		margin-top: 2rem;
 		justify-content: center;
 		flex-direction: row;
 	}
+
+	.current-step .options .input {
+		border: 1px solid #ddd; /* Subtle border */
+		border-radius: 4px; /* Slightly rounded corners */
+		padding: 0.8rem 1rem; /* Adjusted padding */
+		margin: 0 0.5rem; /* Spacing between input and button */
+	}
+
 	.current-step .options button {
 		background: var(--light-button); /* Subtle solid background */
 		cursor: pointer;

@@ -42,7 +42,12 @@
 	<div class="notes-list">
 		<div class="note card">
 			<form on:submit|preventDefault={saveNote}>
-				<textarea bind:value={noteText} placeholder="Enter your note here" rows="4"></textarea>
+				<textarea
+					bind:value={noteText}
+					placeholder="Enter your note here"
+					rows="4"
+					spellcheck="false"
+				></textarea>
 				<button type="submit">{editIndex !== null ? 'Update' : 'Add'}</button>
 			</form>
 		</div>
@@ -85,7 +90,6 @@
 <style>
 	.notes {
 		width: 700px;
-		margin: auto;
 		/* padding: 1rem;
 		background-color: #f3f3f3;
 		border-radius: 8px;
