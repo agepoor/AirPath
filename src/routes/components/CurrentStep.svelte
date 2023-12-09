@@ -4,6 +4,9 @@
 	export let currentNode;
 	export let decisionHandler;
 	export let currentDepartment;
+
+	// Reactive statement to enable/disable button
+	$: isInputValid = $inputValue.trim().length > 0;
 </script>
 
 {#if !currentNode.type}
@@ -29,7 +32,9 @@
 		{:else if currentNode.type === 'input'}
 			<div class="options">
 				<input type="text" bind:value={$inputValue} class="input" placeholder="Type here..." />
-				<button on:click={decisionHandler}>Ga verder</button>
+				<button on:click={decisionHandler} disabled={!isInputValid} id="input-button"
+					>Ga verder</button
+				>
 			</div>
 		{:else if currentNode.type === 'action'}
 			<div class="options">
@@ -163,6 +168,11 @@
 		transition:
 			background-color 0.2s ease,
 			box-shadow 0.2s ease; /* Smooth transitions */
+	}
+
+	#input-button:disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
 	}
 
 	.current-step .options button:hover {

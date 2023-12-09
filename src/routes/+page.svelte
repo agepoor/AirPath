@@ -43,6 +43,7 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-start;
+		margin-bottom: 2rem;
 	}
 	aside {
 		display: flex;
