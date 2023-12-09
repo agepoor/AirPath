@@ -50,7 +50,7 @@
 		flex-direction: column;
 		/* align-items: center; */
 	}
-	@media (max-width: 1600px) {
+	@media (max-width: 1200px) {
 		aside {
 			display: none;
 		}
