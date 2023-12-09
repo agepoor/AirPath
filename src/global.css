@@ -36,26 +36,6 @@
     --border-radius: 4px;
 }
 
-body {
-    position: relative;
-    z-index: 1;
-    font-family: var(--font);
-}
-
-body::before {
-    content: '';
-    position: absolute;
-    min-height: 100vh;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    background-image: url('nice.jpg');
-    background-size: cover;
-    filter: opacity(10%);
-}
-
 /* Common Styles for UI Elements */
 .button,
 .card,

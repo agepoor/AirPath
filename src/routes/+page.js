@@ -4,7 +4,7 @@
  */
 export async function load() {
 	// remove all files that don't match the following names
-	const decisionTreeFiles = import.meta.glob(['../lib/lorenachristmas.json']);
+	const decisionTreeFiles = import.meta.glob(['../lib/trees/lorenachristmas.json']);
 
 	// const decisionTreeFiles = import.meta.glob('../lib/*.json');
 

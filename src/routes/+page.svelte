@@ -33,6 +33,26 @@
 </body>
 
 <style>
+	body {
+		position: relative;
+		z-index: 1;
+		font-family: var(--font);
+	}
+
+	body::before {
+		content: '';
+		position: absolute;
+		min-height: 100vh;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: -1;
+		background-image: url('$lib/images/nice.jpg');
+		background-size: cover;
+		filter: opacity(10%);
+	}
+
 	.main-container {
 		display: flex;
 		flex-direction: row;
