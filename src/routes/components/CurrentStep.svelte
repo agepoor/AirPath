@@ -1,46 +1,77 @@
 <script>
-	import { inputValue } from '$lib/stores';
+	import { inputValue, stepHistory, currentDecisionTree, currentStep } from '$lib/stores';
 
-	export let currentNode;
 	export let decisionHandler;
 	export let currentDepartment;
+
+	// Initialize progress values
+	let progressLength;
+	let progressValue;
+
+
+	stepHistory.subscribe((value) => {
+		if ($currentStep.type !== 'end') {
+			progressValue = value.length;
+		} else if (value.length === 0) {
+			progressValue = 0;
+		} else {
+			progressValue = currentDecisionTree.steps.length;
+		}
+		console.log(progressValue);
+	});
+
+	currentStep.subscribe((value) => {
+		if ($currentDecisionTree.steps && value.type !== 'end') {
+			progressLength = $currentDecisionTree.steps.length;
+			console.log(progressLength);
+		} else {
+			progressLength = progressValue;
+		}
+		console.log(progressLength);
+	});
+
+	// Reactive statement to enable/disable button
+	$: isInputValid = $inputValue.trim().length > 0;
 
 	// Reactive statement to enable/disable button
 	$: isInputValid = $inputValue.trim().length > 0;
 </script>
 
-{#if !currentNode.type}
+{#if !$currentStep.type}
 	<h2 class="make-selection">Selecteer een beslisboom</h2>
 {:else}
 	<div class="current-step modal">
+		<div class="progress-wrapper">
+			<progress value={progressValue} max={progressLength} class="progress-bar"></progress>
+		</div>
 		<h2>
-			{currentNode.description}{#if currentNode.department}*{/if}
+			{$currentStep.description}{#if $currentStep.department}*{/if}
 		</h2>
-		{#if currentNode.explanation}
-			<div class="explanation"><p>{@html currentNode.explanation}</p></div>
+		{#if $currentStep.explanation}
+			<div class="explanation"><p>{@html $currentStep.explanation}</p></div>
 		{/if}
-		{#if currentNode.type === 'start'}
+		{#if $currentStep.type === 'start'}
 			<div class="options">
 				<button on:click={decisionHandler}>Start</button>
 			</div>
-		{:else if currentNode.type === 'decision'}
+		{:else if $currentStep.type === 'decision'}
 			<div class="options">
-				{#each currentNode.options as option}
+				{#each $currentStep.options as option}
 					<button on:click={decisionHandler} value={option.nextStep}>{option.value}</button>
 				{/each}
 			</div>
-		{:else if currentNode.type === 'input'}
+		{:else if $currentStep.type === 'input'}
 			<div class="options">
 				<input type="text" bind:value={$inputValue} class="input" placeholder="Type here..." />
 				<button on:click={decisionHandler} disabled={!isInputValid} id="input-button"
 					>Ga verder</button
 				>
 			</div>
-		{:else if currentNode.type === 'action'}
+		{:else if $currentStep.type === 'action'}
 			<div class="options">
 				<button on:click={decisionHandler}>Ga verder</button>
 			</div>
-		{:else if currentNode.type === 'end'}
+		{:else if $currentStep.type === 'end'}
 			<hr />
 			<h2>End of decision tree</h2>
 		{/if}
@@ -55,6 +86,37 @@
 {/if}
 
 <style>
+	/* Progress Wrapper */
+	.progress-wrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 2rem;
+	}
+
+	/* Progress Bar */
+	.progress-bar {
+		appearance: none; /* Remove default browser appearance */
+		width: 100%;
+		height: 6px; /* Thinner bar for a more subtle appearance */
+		border-radius: 3px; /* Small radius for a slight curve */
+		background-color: #f0f0f0; /* Very light background color */
+		border: none; /* No border for simplicity */
+		overflow: hidden; /* Keeps the inner bar within the border-radius */
+	}
+
+	/* Progress Bar Value */
+	.progress-bar::-webkit-progress-value {
+		background-color: #d20a11; /* Soft blue/gray color */
+		border-radius: 3px; /* Maintain the rounded corners */
+		transition: width 0.5s ease; /* Smooth transition for changes */
+	}
+
+	.progress-bar::-moz-progress-bar {
+		background-color: #d20a11; /* Soft blue/gray color (for Firefox) */
+		border-radius: 3px; /* Maintain the rounded corners */
+	}
+
 	.make-selection {
 		text-align: center;
 		margin: 2rem 0;
@@ -63,8 +125,11 @@
 	/* TODO: Very subtle department styling */
 	/* Style for the current step */
 	.current-step {
+		display: flex;
+		flex-direction: column;
+		padding: 2rem;
+		width: 700px;
 		background: #fff;
-		/* existing styles */
 		margin-bottom: 2rem; /* add a bit of margin at the bottom */
 	}
 

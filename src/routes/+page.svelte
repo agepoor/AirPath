@@ -19,7 +19,7 @@
 	}
 </script>
 
-<body class="snowflakes-container">
+<body>
 	<Header />
 	<main class="main-container">
 		<section>
@@ -48,9 +48,10 @@
 		right: 0;
 		bottom: 0;
 		z-index: -1;
-		background-image: url('$lib/images/nice.jpg');
-		background-size: cover;
-		filter: opacity(10%);
+		/* background-image: url('$lib/images/background.webp'); */
+		background:grey;
+		background-size: contain;
+		filter: opacity(5%);
 	}
 
 	.main-container {

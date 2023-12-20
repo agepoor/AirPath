@@ -21,6 +21,8 @@
 	currentStep.subscribe((value) => (currentNode = value));
 	stepHistory.subscribe((value) => (breadcrumbs = value));
 
+
+
 	// The decision handler function
 	let decisionHandler = (event) => {
 		let buttonValue = event.target.value;
@@ -69,14 +71,17 @@
 		}
 
 		// Reset input value
-		console.log($inputValue);
+		// console.log($inputValue);
 		inputValue.set('');
-		console.log($inputValue);
-		console.log($currentStep);
+		// console.log($inputValue);
+		// console.log($currentStep);
 	};
 </script>
 
 <Breadcrumbs {breadcrumbs} {currentNode} />
-<CurrentStep {currentNode} {decisionHandler} currentDepartment={$currentDepartment} />
+<CurrentStep
+	{decisionHandler}
+	currentDepartment={$currentDepartment}
+/>
 <Memos />
 <Notes />

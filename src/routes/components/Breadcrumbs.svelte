@@ -69,13 +69,16 @@
 
 	.breadcrumb-wrapper {
 		display: flex;
+		border-radius: 5px;
+		box-shadow: inset 0 0 0 2px #e6e6e6;
 		align-items: center;
 	}
 	.breadcrumb-wrapper span {
 		white-space: nowrap;
 		padding: 0.5rem 1rem;
 		font-size: 0.85rem;
-		background: #e6e6e6; /* Subtle background for each breadcrumb */
+		
+		/* background: #e6e6e6; Subtle background for each breadcrumb */
 		color: #666;
 		border-radius: 5px 0px 0px 5px;
 		transition:
@@ -90,7 +93,7 @@
 
 	.breadcrumb-wrapper span.answer {
 		border-radius: 0px 5px 5px 0px;
-		box-shadow: inset 0 0 0 2px #e6e6e6;
+		/* box-shadow: inset 0 0 0 2px #e6e6e6; */
 		/* margin-left: 0.15rem; */
 		background: #eee;
 		color: #222222;

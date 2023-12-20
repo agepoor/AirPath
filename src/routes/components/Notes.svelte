@@ -1,6 +1,7 @@
 <script>
 	import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
 	import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+	import { currentDecisionTree } from '$lib/stores';
 
 	let noteText = '';
 	let notes = []; // Array to store notes as objects
@@ -38,6 +39,7 @@
 	$: typeOrEdit = noteText !== '' || editIndex !== null;
 </script>
 
+{#if $currentDecisionTree.title}
 <div class="notes">
 	<div class="notes-list">
 		<div class="note card">
@@ -84,7 +86,7 @@
 		{/each}
 	</div>
 </div>
-
+{/if}
 <!-- Style remains unchanged -->
 
 <style>
