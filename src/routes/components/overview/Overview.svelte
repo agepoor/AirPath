@@ -6,19 +6,19 @@
 </script>
 
 {#if $currentDecisionTree && $currentDecisionTree.steps}
-	{#each $currentDecisionTree.steps as step}
+	{#each $currentDecisionTree.steps as step, i}
 		{#if step.id === $currentStep.id}
 			<div class="node highlight">
-				<StepOptions {step} />
+				<StepOptions {step} {i}/>
 			</div>
 		{:else if $highlightedStep && step.id === $highlightedStep.id}
 			<div class="node highlightstep">
-				<StepOptions {step} />
+				<StepOptions {step} {i}/>
 			</div>
 		{:else}
 			<div class="node">
 				<!-- display options and values -->
-				<StepOptions {step} />
+				<StepOptions {step} {i}/>
 			</div>
 		{/if}
 	{/each}

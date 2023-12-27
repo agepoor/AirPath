@@ -249,8 +249,8 @@
 	.current-step hr {
 		/* Styling that signifies the end of the decision tree. This should be a cool animation. */
 		width: 100%;
-		height: 2px;
-		background: #2193b0;
+		height: 4px;
+		background: var(--light-info-background);
 		border: none;
 		margin: 2rem 0;
 	}

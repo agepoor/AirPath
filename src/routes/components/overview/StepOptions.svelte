@@ -2,6 +2,8 @@
 	import { currentDecisionTree, currentStep, highlightedStep } from '$lib/stores';
 
 	export let step;
+	export let i;
+
 	let highlightStep = (event) => {
 		let stepId = event.target.innerText;
 		let step = $currentDecisionTree.steps.find((step) => step.id === stepId);
@@ -16,9 +18,9 @@
 </script>
 
 {#if $highlightedStep && step.id === $highlightedStep.id}
-	<span class="step-id-highlighted">{step.id}</span>
+	<span class="step-id-highlighted">{i}. {step.id}</span>
 {:else}
-	<span class="step-id">{step.id}</span>
+	<span class="step-id">{i}. {step.id}</span>
 {/if}
 
 {#if step.options}

@@ -1,0 +1,103 @@
+{
+	"title": "Probleemoplossing bij zuigercompressoren",
+	"description": "Een beslissingsboom om veelvoorkomende problemen bij zuigercompressoren te diagnosticeren.",
+	"departments": {
+		"technical_support": {
+			"name": "Technische Ondersteuning",
+			"description": "Afdeling die helpt bij technische problemen en reparaties."
+		},
+		"parts_department": {
+			"name": "Onderdelen Afdeling",
+			"description": "Afdeling die helpt bij het vinden en vervangen van onderdelen."
+		}
+	},
+	"variables": {
+		"leakAfterStop": {
+			"name": "Lek na stoppen",
+			"value": null
+		},
+		"continuousPumping": {
+			"name": "Blijft pompen",
+			"value": null
+		},
+		"airFromSafetyValve": {
+			"name": "Lucht via veiligheidsventiel",
+			"value": null
+		},
+		"leakAtPump": {
+			"name": "Lek bij pomp",
+			"value": null
+		}
+	},
+	"steps": [
+		{
+			"id": "start",
+			"type": "start",
+			"description": "Kies het probleem dat u ervaart met uw zuigercompressor.",
+			"nextStep": "select_problem"
+		},
+		{
+			"id": "select_problem",
+			"type": "decision",
+			"description": "Welk probleem ervaart u met uw zuigercompressor?",
+			"options": [
+				{
+					"value": "Lucht lekt na het stoppen",
+					"nextStep": "controleer_terugslagklep"
+				},
+				{
+					"value": "Compressor blijft pompen",
+					"nextStep": "controleer_drukschakelaar"
+				},
+				{
+					"value": "Lucht uit het veiligheidsventiel",
+					"nextStep": "controleer_veiligheidsventiel"
+				},
+				{
+					"value": "Lek bij de pomp tijdens gebruik",
+					"nextStep": "lek_bij_pomp"
+				},
+				{
+					"value": "Overige",
+					"nextStep": "overige_problemen"
+				}
+			],
+			"variable": "selectedProblem"
+		},
+		{
+			"id": "controleer_terugslagklep",
+			"type": "end",
+			"description": "De terugslagklep is waarschijnlijk defect.",
+			"explanation": "<p>De terugslagklep is waarschijnlijk defect als er lucht lekt bij de aansluiting van de afblaasleiding onder de drukschakelaar.</p>",
+			"department": "parts_department"
+		},
+		{
+			"id": "controleer_drukschakelaar",
+			"type": "end",
+			"description": "De drukschakelaar is mogelijk defect.",
+			"explanation": "<p>Als de compressor blijft pompen zonder af te slaan, ondanks dat de keteldruk hoger is dan het opgegeven maximum, is de drukschakelaar waarschijnlijk defect en moet deze worden vervangen.</p>",
+			"department": "technical_support"
+		},
+		{
+			"id": "controleer_veiligheidsventiel",
+			"type": "end",
+			"description": "Het veiligheidsventiel is mogelijk defect.",
+			"explanation": "<p>Het veiligheidsventiel, meestal gelegen aan de zijkant of onderkant van de drukschakelaar, is mogelijk defect als het lucht afblaast zonder dat de maximale keteldruk wordt overschreden.</p>",
+			"department": "technical_support"
+		},
+		{
+			"id": "lek_bij_pomp",
+			"type": "end",
+			"description": "De pakkingen en/of klep zijn mogelijk defect.",
+			"explanation": "<p>Als er een lek is bij de pomp tijdens het draaien, zijn de pakkingen en/of de klep waarschijnlijk defect en moeten deze worden gecontroleerd.</p>",
+			"department": "parts_department"
+		},
+		{
+			"id": "overige_problemen",
+			"type": "end",
+			"description": "Neem contact op met technische ondersteuning.",
+			"explanation": "<p>Als uw probleem hier niet wordt vermeld, neem dan contact op met de technische ondersteuning voor verdere hulp.</p>",
+			"department": "technical_support"
+		}
+	]
+}

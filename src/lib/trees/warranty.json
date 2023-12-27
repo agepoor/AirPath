@@ -4,18 +4,22 @@
 	"departments": {
 		"customer_service": {
 			"name": "Klantenservice",
+			"type": 1,
 			"description": "De klantenservice is het eerste aanspreekpunt voor klanten. Zij helpen klanten met vragen en problemen."
 		},
 		"technical_support": {
 			"name": "Technische ondersteuning",
+			"type": 2,
 			"description": "De technische ondersteuning helpt klanten met technische problemen."
 		},
 		"shipping_department": {
 			"name": "Verzendafdeling",
+			"type": 2,
 			"description": "De verzendafdeling regelt de verzending van producten."
 		},
 		"accounting": {
 			"name": "Boekhouding",
+			"type": 2,
 			"description": "De boekhouding houdt zich bezig met de financiële administratie van het bedrijf."
 		}
 	},

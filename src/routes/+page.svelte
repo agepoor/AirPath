@@ -10,7 +10,7 @@
 
 	import Header from './components/Header.svelte';
 	import DecisionTreeViewer from './components/DecisionTreeViewer.svelte';
-	import Overview from './components/Overview.svelte';
+	import Overview from './components/overview/Overview.svelte';
 
 	let showAside = false;
 
@@ -68,7 +68,7 @@
 	}
 	aside {
 		display: flex;
-		width: 300px;
+		width: 400px;
 		flex-direction: column;
 		/* align-items: center; */
 	}

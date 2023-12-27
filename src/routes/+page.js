@@ -4,7 +4,7 @@
  */
 export async function load() {
 	// remove all files that don't match the following names
-	const decisionTreeFiles = import.meta.glob(['../lib/trees/warranty.json']);
+	const decisionTreeFiles = import.meta.glob(['../lib/trees/warranty.json', '../lib/trees/zuigercompressor.json']);
 
 	// const decisionTreeFiles = import.meta.glob('../lib/*.json');
 
